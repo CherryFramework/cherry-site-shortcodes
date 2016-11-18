@@ -74,7 +74,7 @@ class Cherry_Section_Shortcode {
 		$defaults = array(
 			'id'                 => uniqid(),
 			'background_type'    => 'fill-color',
-			'background_color'   => '#fff',
+			'background_color'   => '',
 			'background_opacity' => '100',
 			'background_image'   => '',
 			'background_size'    => 'cover',
@@ -114,13 +114,17 @@ class Cherry_Section_Shortcode {
 
 		switch ( $section_atts['background_type'] ) {
 			case 'fill-color':
-				$rgb_array = Cherry_Shortcodes_Tools::hex_to_rgb( $section_atts['background_color'] );
-				$opacity = intval( $section_atts['background_opacity'] ) / 100;
-				$container_styles['background-color'] = sprintf( 'rgba(%1$s,%2$s,%3$s,%4$s);', $rgb_array[0], $rgb_array[1], $rgb_array[2], $opacity );
+				if ( ! empty( $section_atts['background_color'] ) ) {
+					$rgb_array = Cherry_Shortcodes_Tools::hex_to_rgb( $section_atts['background_color'] );
+					$opacity = intval( $section_atts['background_opacity'] ) / 100;
+					$container_styles['background-color'] = sprintf( 'rgba(%1$s,%2$s,%3$s,%4$s);', $rgb_array[0], $rgb_array[1], $rgb_array[2], $opacity );
+				}
 			break;
 			case 'image':
-				$image_data = wp_get_attachment_image_src( $section_atts['background_image'], 'full' );
-				$container_styles['background-image'] = sprintf( 'url(%1$s);', $image_data[0] );
+				if ( ! empty( $section_atts['background_image'] ) ) {
+					$image_data = wp_get_attachment_image_src( $section_atts['background_image'], 'full' );
+					$container_styles['background-image'] = sprintf( 'url(%1$s);', $image_data[0] );
+				}
 			break;
 		}
 
@@ -132,10 +136,12 @@ class Cherry_Section_Shortcode {
 			$container_styles['padding-bottom'] = $section_atts['padding_bottom'];
 		}
 
-		cherry_site_shortcodes()->dynamic_css->add_style(
-			sprintf( '#cherry-section-%1$s', $section_atts['id'] ),
-			$container_styles
-		);
+		if ( ! empty( $container_styles ) && is_array( $container_styles ) ) {
+			cherry_site_shortcodes()->dynamic_css->add_style(
+				sprintf( '#cherry-section-%1$s', $section_atts['id'] ),
+				$container_styles
+			);
+		}
 	}
 
 	/**

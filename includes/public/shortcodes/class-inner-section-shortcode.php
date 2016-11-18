@@ -1,6 +1,6 @@
 <?php
 /**
- * Cherry Row Shortcode.
+ * Cherry Inner Section Shortcode.
  *
  * @package   Cherry_Team
  * @author    Cherry Team
@@ -10,11 +10,11 @@
  */
 
 /**
- * Class for Row shortcode.
+ * Class for Section shortcode.
  *
  * @since 1.0.0
  */
-class Cherry_Row_Shortcode {
+class Cherry_Inner_Section_Shortcode extends Cherry_Section_Shortcode {
 
 	/**
 	 * Shortcode name.
@@ -22,16 +22,7 @@ class Cherry_Row_Shortcode {
 	 * @since 1.0.0
 	 * @var   string
 	 */
-	public static $name = 'cherry_row';
-
-	/**
-	 * Shortcode defaults attr values
-	 *
-	 * @var array
-	 */
-	public $defaults = array(
-		'full_width' => false,
-	);
+	public static $name = 'cherry_inner_section';
 
 	/**
 	 * A reference to an instance of this class.
@@ -70,33 +61,6 @@ class Cherry_Row_Shortcode {
 	}
 
 	/**
-	 * The shortcode function.
-	 *
-	 * @since  1.0.0
-	 * @param  array  $atts      The user-inputted arguments.
-	 * @param  string $content   The enclosed content (if the shortcode is used in its enclosing form).
-	 * @param  string $shortcode The shortcode tag, useful for shared callback functions.
-	 * @return string
-	 */
-	public function do_shortcode( $atts, $content = null, $shortcode = '' ) {
-
-		/**
-		 * Parse the arguments.
-		 *
-		 * @link http://codex.wordpress.org/Function_Reference/shortcode_atts
-		 */
-		$atts = shortcode_atts( $this->defaults, $atts, $shortcode );
-
-		if ( filter_var( $atts['full_width'], FILTER_VALIDATE_BOOLEAN ) ) {
-			$html = sprintf( '<div class="row">%1$s</div>', do_shortcode( $content ) );
-		} else {
-			$html = sprintf( '<div class="container"><div class="row">%1$s</div></div>', do_shortcode( $content ) );
-		}
-
-		return $html;
-	}
-
-	/**
 	 * Returns the instance.
 	 *
 	 * @since  1.0.0
@@ -113,4 +77,4 @@ class Cherry_Row_Shortcode {
 
 }
 
-Cherry_Row_Shortcode::get_instance();
+Cherry_Inner_Section_Shortcode::get_instance();

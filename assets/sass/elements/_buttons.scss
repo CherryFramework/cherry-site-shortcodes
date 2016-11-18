@@ -25,7 +25,3 @@ input[type='submit'] {
 		width: 100%;
 	}
 }
-
-.btn-slider{
-	@include transition( all 0.4s ease );
-}

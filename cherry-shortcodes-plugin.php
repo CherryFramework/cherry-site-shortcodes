@@ -143,9 +143,12 @@ if ( ! class_exists( 'Cherry_Site_Shortcodes' ) ) {
 		function includes() {
 			require_once( trailingslashit( CHERRY_SITE_SHORTCODES_DIR ) . 'includes/public/tools.php' );
 			require_once( trailingslashit( CHERRY_SITE_SHORTCODES_DIR ) . 'includes/public/shortcodes/grid/class-row-shortcode.php' );
+			require_once( trailingslashit( CHERRY_SITE_SHORTCODES_DIR ) . 'includes/public/shortcodes/grid/class-inner-row-shortcode.php' );
 			require_once( trailingslashit( CHERRY_SITE_SHORTCODES_DIR ) . 'includes/public/shortcodes/grid/class-col-shortcode.php' );
+			require_once( trailingslashit( CHERRY_SITE_SHORTCODES_DIR ) . 'includes/public/shortcodes/grid/class-inner-col-shortcode.php' );
 			require_once( trailingslashit( CHERRY_SITE_SHORTCODES_DIR ) . 'includes/public/shortcodes/class-button-shortcode.php' );
 			require_once( trailingslashit( CHERRY_SITE_SHORTCODES_DIR ) . 'includes/public/shortcodes/class-section-shortcode.php' );
+			require_once( trailingslashit( CHERRY_SITE_SHORTCODES_DIR ) . 'includes/public/shortcodes/class-inner-section-shortcode.php' );
 		}
 
 		/**
