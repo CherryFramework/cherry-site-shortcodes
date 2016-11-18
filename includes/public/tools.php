@@ -1,6 +1,6 @@
 <?php
 /**
- * Cherry Section Shortcode.
+ * Tools.
  *
  * @package   Cherry_Team
  * @author    Cherry Team
@@ -21,14 +21,6 @@ if ( ! defined( 'WPINC' ) ) {
  */
 class Cherry_Shortcodes_Tools {
 
-	/**
-	 * A reference to an instance of this class.
-	 *
-	 * @since 1.0.0
-	 * @var   object
-	 */
-	private static $instance = null;
-
 	function __construct() {}
 
 	/**
@@ -37,7 +29,7 @@ class Cherry_Shortcodes_Tools {
 	 * @param  string $hex Hex color.
 	 * @return array
 	 */
-	static public function hex_to_rgb( $hex ) {
+	public static function hex_to_rgb( $hex ) {
 		$hex = str_replace( '#', '', $hex );
 
 		if ( 3 == strlen( $hex ) ) {
@@ -55,19 +47,27 @@ class Cherry_Shortcodes_Tools {
 	}
 
 	/**
-	 * Returns the instance.
+	 * Escaping for HTML classes.
 	 *
 	 * @since  1.0.0
-	 * @return object
+	 * @param  array  $atts
+	 * @param  string $class
+	 * @return string
 	 */
-	public static function get_instance() {
+	public static function esc_class( $atts, $class = '' ) {
+		$classes = array();
 
-		// If the single instance hasn't been set, set it now.
-		if ( null == self::$instance )
-			self::$instance = new self;
+		if ( ! empty( $class ) ) {
+			$classes[] = $class;
+		}
 
-		return self::$instance;
+		if ( ! empty( $atts['class'] ) ) {
+			$classes[] = $atts['class'];
+		}
+
+		$classes = array_map( 'esc_attr', $classes );
+		$classes = array_filter( $classes );
+
+		return ! empty( $classes ) ? join( $classes, ' ' ) : '';
 	}
 }
-
-Cherry_Shortcodes_Tools::get_instance();
