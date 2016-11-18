@@ -1,0 +1,31 @@
+button,
+input[type='button'],
+input[type='reset'],
+input[type='submit'] {
+	@include btn;
+}
+
+// General styles
+.btn {
+	text-decoration: none;
+	color: #fff;
+	font-family: Raleway;
+	font-size: 15px;
+	font-weight: 600;
+	@include btn;
+	@include border-radius;
+	&:hover {
+		text-decoration: none;
+	}
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 10px;
+	}
+	&-fullwidth {
+		width: 100%;
+	}
+}
+
+.btn-slider{
+	@include transition( all 0.4s ease );
+}

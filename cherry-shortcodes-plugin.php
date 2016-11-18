@@ -49,6 +49,13 @@ if ( ! class_exists( 'Cherry_Site_Shortcodes' ) ) {
 		private $core = null;
 
 		/**
+		 * Dynamic_css module instance.
+		 *
+		 * @var null
+		 */
+		public $dynamic_css = null;
+
+		/**
 		 * Sets up needed actions/filters for the plugin to initialize.
 		 *
 		 * @since 1.0.0
@@ -58,6 +65,9 @@ if ( ! class_exists( 'Cherry_Site_Shortcodes' ) ) {
 		public function __construct() {
 			// Set the constants needed by the plugin.
 			$this->constants();
+
+			// Load the functions files.
+			$this->includes();
 
 			// Load the installer core.
 			add_action( 'after_setup_theme', require( trailingslashit( __DIR__ ) . 'cherry-framework/setup.php' ), 0 );
@@ -89,6 +99,9 @@ if ( ! class_exists( 'Cherry_Site_Shortcodes' ) ) {
 			// Register activation and deactivation hook.
 			register_activation_hook( __FILE__, array( $this, 'activation' ) );
 			register_deactivation_hook( __FILE__, array( $this, 'deactivation' ) );
+
+			// Apply custom formatter function.
+			add_filter( 'the_content', array( $this, 'clean_shortcodes' ) );
 		}
 
 		/**
@@ -120,6 +133,19 @@ if ( ! class_exists( 'Cherry_Site_Shortcodes' ) ) {
 			 * @since 1.0.0
 			 */
 			define( 'CHERRY_SITE_SHORTCODES_URI', trailingslashit( plugin_dir_url( __FILE__ ) ) );
+		}
+
+		/**
+		 * Loads files from the '/inc' folder.
+		 *
+		 * @since 1.0.0
+		 */
+		function includes() {
+			require_once( trailingslashit( CHERRY_SITE_SHORTCODES_DIR ) . 'includes/public/tools.php' );
+			require_once( trailingslashit( CHERRY_SITE_SHORTCODES_DIR ) . 'includes/public/shortcodes/grid/class-row-shortcode.php' );
+			require_once( trailingslashit( CHERRY_SITE_SHORTCODES_DIR ) . 'includes/public/shortcodes/grid/class-col-shortcode.php' );
+			require_once( trailingslashit( CHERRY_SITE_SHORTCODES_DIR ) . 'includes/public/shortcodes/class-button-shortcode.php' );
+			require_once( trailingslashit( CHERRY_SITE_SHORTCODES_DIR ) . 'includes/public/shortcodes/class-section-shortcode.php' );
 		}
 
 		/**
@@ -162,6 +188,9 @@ if ( ! class_exists( 'Cherry_Site_Shortcodes' ) ) {
 					'cherry-toolkit' => array(
 						'autoload' => false,
 					),
+					'cherry-dynamic-css' => array(
+						'autoload' => false,
+					),
 				),
 			) );
 
@@ -176,7 +205,7 @@ if ( ! class_exists( 'Cherry_Site_Shortcodes' ) ) {
 		 * @return void
 		 */
 		public function init_modules() {
-			//$this->get_core()->init_module( 'cherry-interface-builder', array() );
+			$this->dynamic_css = $this->get_core()->init_module( 'cherry-dynamic-css', array() );
 		}
 
 		/**
@@ -212,6 +241,8 @@ if ( ! class_exists( 'Cherry_Site_Shortcodes' ) ) {
 		public function register_assets() {
 			// Register stylesheets.
 			wp_register_style( 'cherry-site-shortcodes-styles', esc_url( CHERRY_SITE_SHORTCODES_URI . 'assets/css/cherry-site-shortcodes.css' ), array(), CHERRY_SITE_SHORTCODES_VERSION, 'all' );
+			wp_register_style( 'cherry-site-shortcodes-element-styles', esc_url( CHERRY_SITE_SHORTCODES_URI . 'assets/css/element.css' ), array(), CHERRY_SITE_SHORTCODES_VERSION, 'all' );
+			wp_register_style( 'cherry-site-shortcodes-grid-styles', esc_url( CHERRY_SITE_SHORTCODES_URI . 'assets/css/grid.css' ), array(), CHERRY_SITE_SHORTCODES_VERSION, 'all' );
 
 			// Register JavaScripts.
 			wp_register_script( 'cherry-site-shortcodes-script',esc_url( CHERRY_SITE_SHORTCODES_URI . 'assets/js/cherry-site-shortcodes.js' ), array( 'jquery ', 'cherry-js-core' ), CHERRY_SITE_SHORTCODES_VERSION, true );
@@ -225,7 +256,20 @@ if ( ! class_exists( 'Cherry_Site_Shortcodes' ) ) {
 		 * @return void
 		 */
 		public function enqueue_styles() {
-			wp_enqueue_style( 'cherry-site-shortcodes-styles' );
+			$avaliable_styles = apply_filters(
+				'cherry-site-shortcodes-avaliable-styles',
+				array(
+					'main'    => 'cherry-site-shortcodes-styles',
+					'grid'    => 'cherry-site-shortcodes-grid-styles',
+					'element' => 'cherry-site-shortcodes-element-styles',
+				)
+			);
+
+			if ( ! empty( $avaliable_styles ) ) {
+				foreach ( $avaliable_styles as $style_id => $style ) {
+					wp_enqueue_style( $style );
+				}
+			}
 		}
 
 		/**
@@ -256,6 +300,25 @@ if ( ! class_exists( 'Cherry_Site_Shortcodes' ) ) {
 		 * @return void
 		 */
 		public function deactivation() {}
+
+		/**
+		 * Custom formatter function.
+		 *
+		 * @since  1.0.0
+		 *
+		 * @param  string  $content
+		 * @return string           Formatted content with clean shortcodes content
+		 */
+		public function clean_shortcodes( $content ) {
+			$array = array (
+				'<p>[' => '[',
+				']</p>' => ']',
+				']<br />' => ']'
+			);
+			$content = strtr( $content, $array );
+
+			return $content;
+		}
 
 		/**
 		 * Returns the instance.
@@ -289,4 +352,4 @@ if ( ! function_exists( 'cherry_site_shortcodes' ) ) {
 	}
 }
 
-blank_plugin();
+cherry_site_shortcodes();
