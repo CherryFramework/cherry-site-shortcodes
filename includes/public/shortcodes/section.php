@@ -31,7 +31,7 @@ class Cherry_Section_Shortcode extends Cherry_Main_Shortcode {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		$this->name = 'cherry_section';
+		$this->name = 'section';
 
 		parent::__construct();
 	}
@@ -66,7 +66,7 @@ class Cherry_Section_Shortcode extends Cherry_Main_Shortcode {
 		$result = sprintf(
 			'<section id="cherry-section-%1$s" class="%2$s">%3$s</section>',
 			esc_attr( $atts['id'] ),
-			Cherry_Shortcodes_Tools::esc_class( $classes, $atts ),
+			Cherry_Site_Tools::esc_class( $classes, $atts ),
 			do_shortcode( $content )
 		);
 
@@ -89,7 +89,7 @@ class Cherry_Section_Shortcode extends Cherry_Main_Shortcode {
 			case 'fill-color':
 
 				if ( ! empty( $atts['background_color'] ) ) {
-					$rgb     = Cherry_Shortcodes_Tools::hex_to_rgb( $atts['background_color'] );
+					$rgb     = Cherry_Site_Tools::hex_to_rgb( $atts['background_color'] );
 					$opacity = intval( $atts['background_opacity'] ) / 100;
 					$styles['background-color'] = sprintf( 'rgba(%1$s, %2$s, %3$s, %4$s);', $rgb[0], $rgb[1], $rgb[2], $opacity );
 				}

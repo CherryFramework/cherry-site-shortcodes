@@ -1,6 +1,6 @@
 <?php
 /**
- * Cherry Row Shortcode.
+ * Cherry Button Shortcode.
  *
  * @package    Cherry_Site_Shortcodes
  * @subpackage Shortcodes
@@ -11,11 +11,11 @@
  */
 
 /**
- * Class for Row shortcode.
+ * Class for Button shortcode.
  *
  * @since 1.0.0
  */
-class Cherry_Row_Shortcode extends Cherry_Main_Shortcode {
+class Cherry_Button_Shortcode extends Cherry_Main_Shortcode {
 
 	/**
 	 * A reference to an instance of this class.
@@ -31,7 +31,7 @@ class Cherry_Row_Shortcode extends Cherry_Main_Shortcode {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		$this->name = 'cherry_row';
+		$this->name = 'button';
 
 		parent::__construct();
 	}
@@ -49,26 +49,18 @@ class Cherry_Row_Shortcode extends Cherry_Main_Shortcode {
 
 		// Set up the default arguments.
 		$defaults = array(
-			'full_width' => 'no',
-			'class'      => '',
+			'href'  => '#',
+			'class' => '',
 		);
 
 		$atts = $this->shortcode_atts( $defaults, $atts );
 
-		if ( filter_var( $atts['full_width'], FILTER_VALIDATE_BOOLEAN ) ) {
-			$result = sprintf(
-				'<div class="%1$s">%2$s</div>',
-				Cherry_Shortcodes_Tools::esc_class( array( 'row' ), $atts ),
-				do_shortcode( $content )
-			);
-
-		} else {
-			$result = sprintf(
-				'<div class="container"><div class="%1$s">%2$s</div></div>',
-				Cherry_Shortcodes_Tools::esc_class( array( 'row' ), $atts ),
-				do_shortcode( $content )
-			);
-		}
+		$result = sprintf(
+			'<a href="%1$s" class="%2$s"><span class="btn__text">%3$s</span></a>',
+			esc_url( $atts['href'] ),
+			Cherry_Site_Tools::esc_class( array( 'btn' ), $atts ),
+			do_shortcode( $content )
+		);
 
 		return apply_filters( 'cherry_shortcode_result', $result, $atts, $shortcode );
 	}
@@ -90,4 +82,4 @@ class Cherry_Row_Shortcode extends Cherry_Main_Shortcode {
 	}
 }
 
-Cherry_Row_Shortcode::get_instance();
+Cherry_Button_Shortcode::get_instance();

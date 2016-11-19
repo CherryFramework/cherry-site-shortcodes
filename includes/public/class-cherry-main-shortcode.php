@@ -17,6 +17,14 @@
 class Cherry_Main_Shortcode {
 
 	/**
+	 * Shortcode prefix.
+	 *
+	 * @since 1.0.0
+	 * @var string
+	 */
+	public $prefix;
+
+	/**
 	 * Shortcode name.
 	 *
 	 * @since 1.0.0
@@ -47,11 +55,13 @@ class Cherry_Main_Shortcode {
 	 * @since 1.0.0
 	 */
 	public function register_shortcode() {
-		$name = $this->get_name();
+		$prefix = $this->get_prefix();
+		$name   = $this->get_name();
+		$tag    = $prefix . $name;
 
-		if ( ! empty( $name ) && ! in_array( $name, self::$shortcodes ) ) {
+		if ( ! empty( $name ) && ! in_array( $tag, self::$shortcodes ) ) {
 
-			add_shortcode( $name, array( $this, 'do_shortcode' ) );
+			add_shortcode( $tag, array( $this, 'do_shortcode' ) );
 			self::$shortcodes[] = $name;
 		}
 	}
@@ -89,6 +99,22 @@ class Cherry_Main_Shortcode {
 		 * @link http://codex.wordpress.org/Function_Reference/shortcode_atts
 		 */
 		return shortcode_atts( $defaults, $atts, $name );
+	}
+
+	/**
+	 * Retrieve a shortcode prefix.
+	 *
+	 * @since  1.0.0
+	 * @return string
+	 */
+	public function get_prefix() {
+		/**
+		 * Filters a shortcode prefix.
+		 *
+		 * @since 1.0.0
+		 * @param string $prefix
+		 */
+		return apply_filters( 'cherry_site_shortcodes_prefix', 'cherry_' );
 	}
 
 	/**

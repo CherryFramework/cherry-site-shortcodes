@@ -1,12 +1,12 @@
 <?php
 /**
- * Tools.
+ * Plugin Tools.
  *
- * @package   Cherry_Team
- * @author    Cherry Team
- * @license   GPL-2.0+
- * @link      http://www.cherryframework.com/
- * @copyright 2014 Cherry Team
+ * @package    Cherry_Site_Shortcodes
+ * @author     Cherry Team
+ * @copyright  Copyright (c) 2012 - 2016, Cherry Team
+ * @link       http://www.cherryframework.com/
+ * @license    http://www.gnu.org/licenses/gpl-3.0.en.html
  */
 
 // If this file is called directly, abort.
@@ -15,17 +15,18 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 /**
- * Class cherry-shortcodes tools.
+ * Class Cherry_Site_Tools.
  *
  * @since 1.0.0
  */
-class Cherry_Shortcodes_Tools {
+class Cherry_Site_Tools {
 
-	function __construct() {}
+	public function __construct() {}
 
 	/**
 	 * Hex to rgb converter.
 	 *
+	 * @since  1.0.0
 	 * @param  string $hex Hex color.
 	 * @return array
 	 */

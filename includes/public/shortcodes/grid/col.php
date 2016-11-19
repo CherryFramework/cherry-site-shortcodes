@@ -1,6 +1,6 @@
 <?php
 /**
- * Cherry Button Shortcode.
+ * Cherry Col Shortcode.
  *
  * @package    Cherry_Site_Shortcodes
  * @subpackage Shortcodes
@@ -11,11 +11,11 @@
  */
 
 /**
- * Class for Button shortcode.
+ * Class for Col shortcode.
  *
  * @since 1.0.0
  */
-class Cherry_Button_Shortcode extends Cherry_Main_Shortcode {
+class Cherry_Col_Shortcode extends Cherry_Main_Shortcode {
 
 	/**
 	 * A reference to an instance of this class.
@@ -31,7 +31,7 @@ class Cherry_Button_Shortcode extends Cherry_Main_Shortcode {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		$this->name = 'cherry_button';
+		$this->name = 'col';
 
 		parent::__construct();
 	}
@@ -49,16 +49,41 @@ class Cherry_Button_Shortcode extends Cherry_Main_Shortcode {
 
 		// Set up the default arguments.
 		$defaults = array(
-			'href'  => '#',
-			'class' => '',
+			'col-xs'        => '',
+			'col-sm'        => '',
+			'col-md'        => '',
+			'col-lg'        => '',
+			'col-xl'        => '',
+			'col-xs-offset' => '',
+			'col-sm-offset' => '',
+			'col-md-offset' => '',
+			'col-lg-offset' => '',
+			'col-xl-offset' => '',
+			'col-xs-push'   => '',
+			'col-sm-push'   => '',
+			'col-md-push'   => '',
+			'col-lg-push'   => '',
+			'col-xs-push'   => '',
+			'col-xs-pull'   => '',
+			'col-sm-pull'   => '',
+			'col-md-pull'   => '',
+			'col-lg-pull'   => '',
+			'col-xl-pull'   => '',
 		);
 
 		$atts = $this->shortcode_atts( $defaults, $atts );
 
+		$classes = array( 'cherry-col' );
+
+		foreach ( $atts as $key => $value ) {
+			if ( ! empty( $value ) ) {
+				$classes[] = $key . '-' . $value;
+			}
+		}
+
 		$result = sprintf(
-			'<a href="%1$s" class="%2$s"><span class="btn__text">%3$s</span></a>',
-			esc_url( $atts['href'] ),
-			Cherry_Shortcodes_Tools::esc_class( array( 'btn' ), $atts ),
+			'<div class="%1$s">%2$s</div>',
+			Cherry_Site_Tools::esc_class( $classes ),
 			do_shortcode( $content )
 		);
 
@@ -82,4 +107,4 @@ class Cherry_Button_Shortcode extends Cherry_Main_Shortcode {
 	}
 }
 
-Cherry_Button_Shortcode::get_instance();
+Cherry_Col_Shortcode::get_instance();

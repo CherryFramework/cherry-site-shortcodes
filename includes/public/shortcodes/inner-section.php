@@ -1,6 +1,6 @@
 <?php
 /**
- * Cherry Inner Row Shortcode.
+ * Cherry Inner Section Shortcode.
  *
  * @package    Cherry_Site_Shortcodes
  * @subpackage Shortcodes
@@ -11,11 +11,11 @@
  */
 
 /**
- * Class for Inner Row shortcode.
+ * Class for Inner Section shortcode.
  *
  * @since 1.0.0
  */
-class Cherry_Inner_Row_Shortcode extends Cherry_Row_Shortcode {
+class Cherry_Inner_Section_Shortcode extends Cherry_Section_Shortcode {
 
 	/**
 	 * A reference to an instance of this class.
@@ -31,7 +31,7 @@ class Cherry_Inner_Row_Shortcode extends Cherry_Row_Shortcode {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		$this->name = 'cherry_inner_row';
+		$this->name = 'inner_section';
 
 		Cherry_Main_Shortcode::__construct();
 	}
@@ -53,4 +53,4 @@ class Cherry_Inner_Row_Shortcode extends Cherry_Row_Shortcode {
 	}
 }
 
-Cherry_Inner_Row_Shortcode::get_instance();
+Cherry_Inner_Section_Shortcode::get_instance();

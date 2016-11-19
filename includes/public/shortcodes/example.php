@@ -31,7 +31,7 @@ class Cherry_Example_Shortcode extends Cherry_Main_Shortcode {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		$this->name = 'cherry_example';
+		$this->name = 'example';
 
 		parent::__construct();
 	}
@@ -56,7 +56,7 @@ class Cherry_Example_Shortcode extends Cherry_Main_Shortcode {
 
 		$result = sprintf(
 			'<div class="%1$s">%2$s</a>',
-			Cherry_Shortcodes_Tools::esc_class( array( 'example-css-class' ), $atts ),
+			Cherry_Site_Tools::esc_class( array( 'example-css-class' ), $atts ),
 			do_shortcode( $content )
 		);
 

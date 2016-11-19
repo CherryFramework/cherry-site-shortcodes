@@ -1,6 +1,6 @@
 <?php
 /**
- * Cherry Col Shortcode.
+ * Cherry Row Shortcode.
  *
  * @package    Cherry_Site_Shortcodes
  * @subpackage Shortcodes
@@ -11,11 +11,11 @@
  */
 
 /**
- * Class for Col shortcode.
+ * Class for Row shortcode.
  *
  * @since 1.0.0
  */
-class Cherry_Col_Shortcode extends Cherry_Main_Shortcode {
+class Cherry_Row_Shortcode extends Cherry_Main_Shortcode {
 
 	/**
 	 * A reference to an instance of this class.
@@ -31,7 +31,7 @@ class Cherry_Col_Shortcode extends Cherry_Main_Shortcode {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		$this->name = 'cherry_col';
+		$this->name = 'row';
 
 		parent::__construct();
 	}
@@ -49,43 +49,26 @@ class Cherry_Col_Shortcode extends Cherry_Main_Shortcode {
 
 		// Set up the default arguments.
 		$defaults = array(
-			'col-xs'        => '',
-			'col-sm'        => '',
-			'col-md'        => '',
-			'col-lg'        => '',
-			'col-xl'        => '',
-			'col-xs-offset' => '',
-			'col-sm-offset' => '',
-			'col-md-offset' => '',
-			'col-lg-offset' => '',
-			'col-xl-offset' => '',
-			'col-xs-push'   => '',
-			'col-sm-push'   => '',
-			'col-md-push'   => '',
-			'col-lg-push'   => '',
-			'col-xs-push'   => '',
-			'col-xs-pull'   => '',
-			'col-sm-pull'   => '',
-			'col-md-pull'   => '',
-			'col-lg-pull'   => '',
-			'col-xl-pull'   => '',
+			'full_width' => 'no',
+			'class'      => '',
 		);
 
 		$atts = $this->shortcode_atts( $defaults, $atts );
 
-		$classes = array( 'cherry-col' );
+		if ( filter_var( $atts['full_width'], FILTER_VALIDATE_BOOLEAN ) ) {
+			$result = sprintf(
+				'<div class="%1$s">%2$s</div>',
+				Cherry_Site_Tools::esc_class( array( 'row' ), $atts ),
+				do_shortcode( $content )
+			);
 
-		foreach ( $atts as $key => $value ) {
-			if ( ! empty( $value ) ) {
-				$classes[] = $key . '-' . $value;
-			}
+		} else {
+			$result = sprintf(
+				'<div class="container"><div class="%1$s">%2$s</div></div>',
+				Cherry_Site_Tools::esc_class( array( 'row' ), $atts ),
+				do_shortcode( $content )
+			);
 		}
-
-		$result = sprintf(
-			'<div class="%1$s">%2$s</div>',
-			Cherry_Shortcodes_Tools::esc_class( $classes ),
-			do_shortcode( $content )
-		);
 
 		return apply_filters( 'cherry_shortcode_result', $result, $atts, $shortcode );
 	}
@@ -107,4 +90,4 @@ class Cherry_Col_Shortcode extends Cherry_Main_Shortcode {
 	}
 }
 
-Cherry_Col_Shortcode::get_instance();
+Cherry_Row_Shortcode::get_instance();

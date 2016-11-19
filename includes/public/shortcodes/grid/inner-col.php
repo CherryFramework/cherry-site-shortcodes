@@ -31,7 +31,7 @@ class Cherry_Inner_Col_Shortcode extends Cherry_Col_Shortcode {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		$this->name = 'cherry_inner_col';
+		$this->name = 'inner_col';
 
 		Cherry_Main_Shortcode::__construct();
 	}
