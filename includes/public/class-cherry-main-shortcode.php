@@ -1,16 +1,16 @@
 <?php
 /**
- * Cherry Button Shortcode.
+ * Cherry Main Shortcode.
  *
- * @package   Cherry_Team
- * @author    Cherry Team
- * @license   GPL-2.0+
- * @link      http://www.cherryframework.com/
- * @copyright 2014 Cherry Team
+ * @package    Cherry_Site_Shortcodes
+ * @author     Cherry Team
+ * @copyright  Copyright (c) 2012 - 2016, Cherry Team
+ * @link       http://www.cherryframework.com/
+ * @license    http://www.gnu.org/licenses/gpl-3.0.en.html
  */
 
 /**
- * Class for Button shortcode.
+ * Class for Main shortcode.
  *
  * @since 1.0.0
  */
@@ -25,7 +25,7 @@ class Cherry_Main_Shortcode {
 	public $name;
 
 	/**
-	 * Shortcodes.
+	 * The array of shortcodes registered with plugin.
 	 *
 	 * @since 1.0.0
 	 * @var string
