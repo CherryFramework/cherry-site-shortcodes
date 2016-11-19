@@ -55,7 +55,7 @@ class Cherry_Main_Shortcode {
 	 * @since 1.0.0
 	 */
 	public function register_shortcode() {
-		$prefix = $this->get_prefix();
+		$prefix = $this->get_tag_prefix();
 		$name   = $this->get_name();
 		$tag    = $prefix . $name;
 
@@ -102,12 +102,12 @@ class Cherry_Main_Shortcode {
 	}
 
 	/**
-	 * Retrieve a shortcode prefix.
+	 * Retrieve a shortcode tag prefix.
 	 *
 	 * @since  1.0.0
 	 * @return string
 	 */
-	public function get_prefix() {
+	public function get_tag_prefix() {
 		/**
 		 * Filters a shortcode prefix.
 		 *
@@ -115,6 +115,25 @@ class Cherry_Main_Shortcode {
 		 * @param string $prefix
 		 */
 		return apply_filters( 'cherry_site_shortcodes_prefix', 'cherry_' );
+	}
+
+	/**
+	 * Retrieve a prefix for CSS-class.
+	 *
+	 * @since  1.0.0
+	 * @return string
+	 */
+	public function get_css_prefix() {
+		$prefix     = $this->get_tag_prefix();
+		$css_prefix = str_replace( '_', '-', $prefix );
+
+		/**
+		 * Filters a prefix for CSS-class.
+		 *
+		 * @since 1.0.0
+		 * @param string $css_prefix
+		 */
+		return apply_filters( 'cherry_site_shortcodes_css_prefix', $css_prefix );
 	}
 
 	/**

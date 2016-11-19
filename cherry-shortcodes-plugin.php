@@ -257,8 +257,8 @@ if ( ! class_exists( 'Cherry_Site_Shortcodes' ) ) {
 		 */
 		public function register_assets() {
 			// Register stylesheets.
-			wp_register_style( 'cherry-site-shortcodes-styles', CHERRY_SITE_SHORTCODES_URI . 'assets/css/cherry-site-shortcodes.css', array(), CHERRY_SITE_SHORTCODES_VERSION, 'all' );
-			wp_register_style( 'cherry-site-shortcodes-element-styles', CHERRY_SITE_SHORTCODES_URI . 'assets/css/element.css', array(), CHERRY_SITE_SHORTCODES_VERSION, 'all' );
+			wp_register_style( 'cherry-site-shortcodes-styles', CHERRY_SITE_SHORTCODES_URI . 'assets/css/main.css', array(), CHERRY_SITE_SHORTCODES_VERSION, 'all' );
+			wp_register_style( 'cherry-site-shortcodes-element-styles', CHERRY_SITE_SHORTCODES_URI . 'assets/css/elements.css', array(), CHERRY_SITE_SHORTCODES_VERSION, 'all' );
 			wp_register_style( 'cherry-site-shortcodes-grid-styles', CHERRY_SITE_SHORTCODES_URI . 'assets/css/grid.css', array(), CHERRY_SITE_SHORTCODES_VERSION, 'all' );
 
 			// Register JavaScripts.

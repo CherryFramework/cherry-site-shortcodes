@@ -60,12 +60,14 @@ class Cherry_Section_Shortcode extends Cherry_Main_Shortcode {
 			'class'              => '',
 		);
 
-		$atts    = $this->shortcode_atts( $defaults, $atts );
-		$classes = array( 'cherry-section', $atts['background_size'] );
+		$atts       = $this->shortcode_atts( $defaults, $atts );
+		$css_prefix = $this->get_css_prefix();
+		$classes    = array( $css_prefix . 'section', $css_prefix . 'section--' . $atts['background_size'] );
 
 		$result = sprintf(
-			'<section id="cherry-section-%1$s" class="%2$s">%3$s</section>',
+			'<section id="%2$ssection-%1$s" class="%3$s">%4$s</section>',
 			esc_attr( $atts['id'] ),
+			esc_attr( $css_prefix ),
 			Cherry_Site_Tools::esc_class( $classes, $atts ),
 			do_shortcode( $content )
 		);

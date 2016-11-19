@@ -1,0 +1,70 @@
+// Rem output with px fallback
+@mixin font-size($sizeValue: 1) {
+	font-size: ($sizeValue * 16) * 1px;
+	font-size: $sizeValue * 1rem;
+}
+
+// Center block
+@mixin center-block {
+	display: block;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+@mixin reset-list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+@mixin font-awesome-icon {
+	font: normal normal normal 14px/1 FontAwesome;
+	font-size: inherit;
+	display: inline-block;
+
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+@mixin btn {
+	line-height: 1;
+	display: inline-block;
+	max-width: 100%;
+	padding: 20px 30px;
+	cursor: pointer;
+	text-align: center;
+	vertical-align: top;
+	white-space: nowrap;
+	text-decoration: none;
+	text-overflow: ellipsis;
+	border-style: solid;
+	border-color: currentColor;
+	&:hover {
+		text-decoration: none;
+	}
+}
+
+// Optional hyphenation
+@mixin hyphens($mode: auto) {
+	word-wrap: break-word;
+	-webkit-hyphens: $mode;
+	-moz-hyphens: $mode;
+	hyphens: $mode;
+
+	-ms-hyphens: $mode; // IE10+
+	-o-hyphens: $mode;
+}
+
+@mixin word-wrap {
+	word-wrap: break-word;
+	word-break: break-all;
+	-ms-word-break: break-all;
+
+	overflow-wrap: break-word;
+}
+
+// Resize anything
+@mixin resizable($direction) {
+	overflow: auto; // Per CSS3 UI, `resize` only applies when `overflow` isn't `visible`
+	resize: $direction; // Options: horizontal, vertical, both
+}

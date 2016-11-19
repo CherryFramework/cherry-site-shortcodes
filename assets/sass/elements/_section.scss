@@ -1,14 +1,16 @@
-.cherry-section{
-	background-repeat: no-repeat;
-	&.cover{
-		background-size: cover;
-	}
-	&.cover-left{
-		background-position: 0 50%;
-		background-size: 50%;
-	}
-	&.cover-right{
-		background-position: 100% 50%;
-		background-size: 50%;
+.#{$prefix} {
+	&section {
+		background-repeat: no-repeat;
+		&--cover {
+			background-size: cover;
+		}
+		&--cover-left {
+			background-position: 0 50%;
+			background-size: 50%;
+		}
+		&--cover-right {
+			background-position: 100% 50%;
+			background-size: 50%;
+		}
 	}
 }
