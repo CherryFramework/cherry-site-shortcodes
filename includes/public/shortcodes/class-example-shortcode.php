@@ -1,20 +1,21 @@
 <?php
 /**
- * Cherry Button Shortcode.
+ * Cherry Example Shortcode.
  *
- * @package   Cherry_Team
- * @author    Cherry Team
- * @license   GPL-2.0+
- * @link      http://www.cherryframework.com/
- * @copyright 2014 Cherry Team
+ * @package    Cherry_Site_Shortcodes
+ * @subpackage Shortcodes
+ * @author     Cherry Team
+ * @copyright  Copyright (c) 2012 - 2016, Cherry Team
+ * @link       http://www.cherryframework.com/
+ * @license    http://www.gnu.org/licenses/gpl-3.0.en.html
  */
 
 /**
- * Class for Button shortcode.
+ * Class for Example shortcode.
  *
  * @since 1.0.0
  */
-class Cherry_Button_Shortcode extends Cherry_Main_Shortcode {
+class Cherry_Example_Shortcode extends Cherry_Main_Shortcode {
 
 	/**
 	 * A reference to an instance of this class.
@@ -30,7 +31,7 @@ class Cherry_Button_Shortcode extends Cherry_Main_Shortcode {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		$this->name = 'cherry_button';
+		$this->name = 'cherry_example';
 
 		parent::__construct();
 	}
@@ -48,16 +49,14 @@ class Cherry_Button_Shortcode extends Cherry_Main_Shortcode {
 
 		// Set up the default arguments.
 		$defaults = array(
-			'href'  => '#',
 			'class' => '',
 		);
 
 		$atts = $this->shortcode_atts( $defaults, $atts );
 
 		$result = sprintf(
-			'<a href="%1$s" class="%2$s"><span class="btn__text">%3$s</span></a>',
-			esc_url( $atts['href'] ),
-			Cherry_Shortcodes_Tools::esc_class( array( 'btn' ), $atts ),
+			'<div class="%1$s">%2$s</a>',
+			Cherry_Shortcodes_Tools::esc_class( array( 'example-css-class' ), $atts ),
 			do_shortcode( $content )
 		);
 
@@ -81,4 +80,4 @@ class Cherry_Button_Shortcode extends Cherry_Main_Shortcode {
 	}
 }
 
-Cherry_Button_Shortcode::get_instance();
+Cherry_Example_Shortcode::get_instance();

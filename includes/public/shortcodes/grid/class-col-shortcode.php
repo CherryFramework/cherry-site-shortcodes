@@ -2,11 +2,12 @@
 /**
  * Cherry Col Shortcode.
  *
- * @package   Cherry_Team
- * @author    Cherry Team
- * @license   GPL-2.0+
- * @link      http://www.cherryframework.com/
- * @copyright 2014 Cherry Team
+ * @package    Cherry_Site_Shortcodes
+ * @subpackage Shortcodes
+ * @author     Cherry Team
+ * @copyright  Copyright (c) 2012 - 2016, Cherry Team
+ * @link       http://www.cherryframework.com/
+ * @license    http://www.gnu.org/licenses/gpl-3.0.en.html
  */
 
 /**
@@ -14,62 +15,37 @@
  *
  * @since 1.0.0
  */
-class Cherry_Col_Shortcode {
-
-	/**
-	 * Shortcode name.
-	 *
-	 * @since 1.0.0
-	 * @var   string
-	 */
-	public static $name = 'cherry_col';
+class Cherry_Col_Shortcode extends Cherry_Main_Shortcode {
 
 	/**
 	 * A reference to an instance of this class.
 	 *
 	 * @since 1.0.0
-	 * @var   object
+	 * @var object
 	 */
 	private static $instance = null;
 
 	/**
-	 * Sets up our actions/filters.
+	 * Constructor method.
 	 *
 	 * @since 1.0.0
 	 */
 	public function __construct() {
+		$this->name = 'cherry_col';
 
-		// Register shortcode on 'init'.
-		add_action( 'init', array( $this, 'register_shortcode' ) );
+		parent::__construct();
 	}
 
 	/**
-	 * Registers the [$this->name] shortcode.
-	 *
-	 * @since 1.0.0
-	 */
-	public function register_shortcode() {
-		/**
-		 * Filters a shortcode name.
-		 *
-		 * @since 1.0.0
-		 * @param string $this->name Shortcode name.
-		 */
-		$tag = apply_filters( self::$name . '_shortcode_name', self::$name );
-
-		add_shortcode( $tag, array( $this, 'do_shortcode' ) );
-	}
-
-	/**
-	 * The shortcode function.
+	 * The shortcode callback function.
 	 *
 	 * @since  1.0.0
-	 * @param  array  $atts      The user-inputted arguments.
-	 * @param  string $content   The enclosed content (if the shortcode is used in its enclosing form).
-	 * @param  string $shortcode The shortcode tag, useful for shared callback functions.
+	 * @param  array  $atts
+	 * @param  string $content
+	 * @param  string $shortcode
 	 * @return string
 	 */
-	public function do_shortcode( $atts, $content = null, $shortcode = '' ) {
+	public function do_shortcode( $atts, $content = null, $shortcode ) {
 
 		// Set up the default arguments.
 		$defaults = array(
@@ -95,14 +71,9 @@ class Cherry_Col_Shortcode {
 			'col-xl-pull'   => '',
 		);
 
-		/**
-		 * Parse the arguments.
-		 *
-		 * @link http://codex.wordpress.org/Function_Reference/shortcode_atts
-		 */
-		$atts = shortcode_atts( $defaults, $atts, $shortcode );
+		$atts = $this->shortcode_atts( $defaults, $atts );
 
-		$classes = array();
+		$classes = array( 'cherry-col' );
 
 		foreach ( $atts as $key => $value ) {
 			if ( ! empty( $value ) ) {
@@ -110,15 +81,13 @@ class Cherry_Col_Shortcode {
 			}
 		}
 
-		$classes_attr = ( ! empty( $classes ) ) ? implode( ' ', $classes ) : '';
-
-		$html = sprintf(
+		$result = sprintf(
 			'<div class="%1$s">%2$s</div>',
-			esc_attr( $classes_attr ),
+			Cherry_Shortcodes_Tools::esc_class( $classes ),
 			do_shortcode( $content )
 		);
 
-		return $html;
+		return apply_filters( 'cherry_shortcode_result', $result, $atts, $shortcode );
 	}
 
 	/**
@@ -130,12 +99,12 @@ class Cherry_Col_Shortcode {
 	public static function get_instance() {
 
 		// If the single instance hasn't been set, set it now.
-		if ( null == self::$instance )
+		if ( null == self::$instance ) {
 			self::$instance = new self;
+		}
 
 		return self::$instance;
 	}
-
 }
 
 Cherry_Col_Shortcode::get_instance();

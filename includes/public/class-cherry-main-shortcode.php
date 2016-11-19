@@ -25,6 +25,14 @@ class Cherry_Main_Shortcode {
 	public $name;
 
 	/**
+	 * Shortcodes.
+	 *
+	 * @since 1.0.0
+	 * @var string
+	 */
+	public static $shortcodes = array();
+
+	/**
 	 * Constructor method.
 	 *
 	 * @since 1.0.0
@@ -41,8 +49,10 @@ class Cherry_Main_Shortcode {
 	public function register_shortcode() {
 		$name = $this->get_name();
 
-		if ( ! empty( $name ) ) {
+		if ( ! empty( $name ) && ! in_array( $name, self::$shortcodes ) ) {
+
 			add_shortcode( $name, array( $this, 'do_shortcode' ) );
+			self::$shortcodes[] = $name;
 		}
 	}
 

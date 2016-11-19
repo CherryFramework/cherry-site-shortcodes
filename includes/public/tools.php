@@ -41,9 +41,8 @@ class Cherry_Shortcodes_Tools {
 			$g = hexdec( substr( $hex, 2, 2 ) );
 			$b = hexdec( substr( $hex, 4, 2 ) );
 		}
-		$rgb = array( $r, $g, $b );
 
-		return $rgb;
+		return array( $r, $g, $b );
 	}
 
 	/**
@@ -54,12 +53,7 @@ class Cherry_Shortcodes_Tools {
 	 * @param  string $class
 	 * @return string
 	 */
-	public static function esc_class( $atts, $class = '' ) {
-		$classes = array();
-
-		if ( ! empty( $class ) ) {
-			$classes[] = $class;
-		}
+	public static function esc_class( $classes, $atts = array() ) {
 
 		if ( ! empty( $atts['class'] ) ) {
 			$classes[] = $atts['class'];

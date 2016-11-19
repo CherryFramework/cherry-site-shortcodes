@@ -2,11 +2,12 @@
 /**
  * Cherry Section Shortcode.
  *
- * @package   Cherry_Team
- * @author    Cherry Team
- * @license   GPL-2.0+
- * @link      http://www.cherryframework.com/
- * @copyright 2014 Cherry Team
+ * @package    Cherry_Site_Shortcodes
+ * @subpackage Shortcodes
+ * @author     Cherry Team
+ * @copyright  Copyright (c) 2012 - 2016, Cherry Team
+ * @link       http://www.cherryframework.com/
+ * @license    http://www.gnu.org/licenses/gpl-3.0.en.html
  */
 
 /**
@@ -14,62 +15,38 @@
  *
  * @since 1.0.0
  */
-class Cherry_Section_Shortcode {
-
-	/**
-	 * Shortcode name.
-	 *
-	 * @since 1.0.0
-	 * @var   string
-	 */
-	public static $name = 'cherry_section';
+class Cherry_Section_Shortcode extends Cherry_Main_Shortcode {
 
 	/**
 	 * A reference to an instance of this class.
 	 *
 	 * @since 1.0.0
-	 * @var   object
+	 * @var object
 	 */
 	private static $instance = null;
 
 	/**
-	 * Sets up our actions/filters.
+	 * Constructor method.
 	 *
 	 * @since 1.0.0
 	 */
 	public function __construct() {
+		$this->name = 'cherry_section';
 
-		// Register shortcode on 'init'.
-		add_action( 'init', array( $this, 'register_shortcode' ) );
+		parent::__construct();
 	}
 
 	/**
-	 * Registers the [$this->name] shortcode.
-	 *
-	 * @since 1.0.0
-	 */
-	public function register_shortcode() {
-		/**
-		 * Filters a shortcode name.
-		 *
-		 * @since 1.0.0
-		 * @param string $this->name Shortcode name.
-		 */
-		$tag = apply_filters( self::$name . '_shortcode_name', self::$name );
-
-		add_shortcode( $tag, array( $this, 'do_shortcode' ) );
-	}
-
-	/**
-	 * The shortcode function.
+	 * The shortcode callback function.
 	 *
 	 * @since  1.0.0
-	 * @param  array  $atts      The user-inputted arguments.
-	 * @param  string $content   The enclosed content (if the shortcode is used in its enclosing form).
-	 * @param  string $shortcode The shortcode tag, useful for shared callback functions.
+	 * @param  array  $atts
+	 * @param  string $content
+	 * @param  string $shortcode
 	 * @return string
 	 */
-	public function do_shortcode( $atts, $content = null, $shortcode = '' ) {
+	public function do_shortcode( $atts, $content = null, $shortcode ) {
+
 		// Set up the default arguments.
 		$defaults = array(
 			'id'                 => uniqid(),
@@ -83,65 +60,69 @@ class Cherry_Section_Shortcode {
 			'class'              => '',
 		);
 
-		/**
-		 * Parse the arguments.
-		 *
-		 * @link http://codex.wordpress.org/Function_Reference/shortcode_atts
-		 */
-		$atts = shortcode_atts( $defaults, $atts, $shortcode );
+		$atts    = $this->shortcode_atts( $defaults, $atts );
+		$classes = array( 'cherry-section', $atts['background_size'] );
 
-		$html = sprintf(
-			'<section id="cherry-section-%1$s" class="cherry-section %2$s %3$s">%4$s</section>',
+		$result = sprintf(
+			'<section id="cherry-section-%1$s" class="%2$s">%3$s</section>',
 			esc_attr( $atts['id'] ),
-			esc_attr( $atts['background_size'] ),
-			esc_attr( $atts['class'] ),
+			Cherry_Shortcodes_Tools::esc_class( $classes, $atts ),
 			do_shortcode( $content )
 		);
 
 		$this->generate_dynamic_styles( $atts );
 
-		return $html;
+		return apply_filters( 'cherry_shortcode_result', $result, $atts, $shortcode );
 	}
 
 	/**
-	 * Generate dynamic CSS styles for popup instance.
+	 * Generate dynamic CSS styles for shortcode instance.
 	 *
+	 * @since  1.0.0
+	 * @param  array $atts
 	 * @return void
 	 */
-	public function generate_dynamic_styles( $section_atts ) {
+	public function generate_dynamic_styles( $atts ) {
+		$styles = array();
 
-		$container_styles = array();
-
-		switch ( $section_atts['background_type'] ) {
+		switch ( $atts['background_type'] ) {
 			case 'fill-color':
-				if ( ! empty( $section_atts['background_color'] ) ) {
-					$rgb_array = Cherry_Shortcodes_Tools::hex_to_rgb( $section_atts['background_color'] );
-					$opacity = intval( $section_atts['background_opacity'] ) / 100;
-					$container_styles['background-color'] = sprintf( 'rgba(%1$s,%2$s,%3$s,%4$s);', $rgb_array[0], $rgb_array[1], $rgb_array[2], $opacity );
+
+				if ( ! empty( $atts['background_color'] ) ) {
+					$rgb     = Cherry_Shortcodes_Tools::hex_to_rgb( $atts['background_color'] );
+					$opacity = intval( $atts['background_opacity'] ) / 100;
+					$styles['background-color'] = sprintf( 'rgba(%1$s, %2$s, %3$s, %4$s);', $rgb[0], $rgb[1], $rgb[2], $opacity );
 				}
-			break;
+				break;
+
 			case 'image':
-				if ( ! empty( $section_atts['background_image'] ) ) {
-					$image_data = wp_get_attachment_image_src( $section_atts['background_image'], 'full' );
-					$container_styles['background-image'] = sprintf( 'url(%1$s);', $image_data[0] );
+
+				if ( ! empty( $atts['background_image'] ) ) {
+					$image = wp_get_attachment_image_src( $atts['background_image'], 'full' );
+					$styles['background-image'] = sprintf( 'url(%1$s);', esc_url( $image[0] ) );
 				}
-			break;
+				break;
+
+			default:
+				break;
 		}
 
-		if ( ! empty( $section_atts['padding_top'] ) ) {
-			$container_styles['padding-top'] = $section_atts['padding_top'];
+		if ( ! empty( $atts['padding_top'] ) ) {
+			$styles['padding-top'] = $atts['padding_top'];
 		}
 
-		if ( ! empty( $section_atts['padding_bottom'] ) ) {
-			$container_styles['padding-bottom'] = $section_atts['padding_bottom'];
+		if ( ! empty( $atts['padding_bottom'] ) ) {
+			$styles['padding-bottom'] = $atts['padding_bottom'];
 		}
 
-		if ( ! empty( $container_styles ) && is_array( $container_styles ) ) {
-			cherry_site_shortcodes()->dynamic_css->add_style(
-				sprintf( '#cherry-section-%1$s', $section_atts['id'] ),
-				$container_styles
-			);
+		if ( empty( $styles ) || ! is_array( $styles ) ) {
+			return;
 		}
+
+		cherry_site_shortcodes()->dynamic_css->add_style(
+			sprintf( '#cherry-section-%1$s', $atts['id'] ),
+			$styles
+		);
 	}
 
 	/**
@@ -153,12 +134,12 @@ class Cherry_Section_Shortcode {
 	public static function get_instance() {
 
 		// If the single instance hasn't been set, set it now.
-		if ( null == self::$instance )
+		if ( null == self::$instance ) {
 			self::$instance = new self;
+		}
 
 		return self::$instance;
 	}
-
 }
 
 Cherry_Section_Shortcode::get_instance();
