@@ -73,7 +73,8 @@ class Cherry_Col_Shortcode extends Cherry_Main_Shortcode {
 
 		$atts = $this->shortcode_atts( $defaults, $atts );
 
-		$classes = array( 'cherry-col' );
+		$css_prefix = $this->get_css_prefix();
+		$classes    = array( $css_prefix . 'col' );
 
 		foreach ( $atts as $key => $value ) {
 			if ( ! empty( $value ) ) {
@@ -83,7 +84,7 @@ class Cherry_Col_Shortcode extends Cherry_Main_Shortcode {
 
 		$result = sprintf(
 			'<div class="%1$s">%2$s</div>',
-			Cherry_Site_Tools::esc_class( $classes ),
+			Cherry_Site_Tools::esc_class( $classes, array(), false ),
 			do_shortcode( $content )
 		);
 

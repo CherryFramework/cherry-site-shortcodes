@@ -96,7 +96,7 @@ if ( ! class_exists( 'Cherry_Site_Shortcodes' ) ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ), 11 );
 
 			// Load public-facing JavaScripts.
-			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 12 );
+			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 11 );
 
 			// Register activation and deactivation hook.
 			register_activation_hook( __FILE__, array( $this, 'activation' ) );
@@ -146,7 +146,6 @@ if ( ! class_exists( 'Cherry_Site_Shortcodes' ) ) {
 			require_once( CHERRY_SITE_SHORTCODES_DIR . 'includes/public/tools.php' );
 
 			$this->shortcodes();
-
 		}
 
 		/**

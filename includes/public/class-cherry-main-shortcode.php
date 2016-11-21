@@ -17,14 +17,6 @@
 class Cherry_Main_Shortcode {
 
 	/**
-	 * Shortcode prefix.
-	 *
-	 * @since 1.0.0
-	 * @var string
-	 */
-	public $prefix;
-
-	/**
 	 * Shortcode name.
 	 *
 	 * @since 1.0.0
@@ -107,14 +99,14 @@ class Cherry_Main_Shortcode {
 	 * @since  1.0.0
 	 * @return string
 	 */
-	public function get_tag_prefix() {
+	public static function get_tag_prefix() {
 		/**
 		 * Filters a shortcode prefix.
 		 *
 		 * @since 1.0.0
 		 * @param string $prefix
 		 */
-		return apply_filters( 'cherry_site_shortcodes_prefix', 'cherry_' );
+		return apply_filters( 'cherry_site_shortcodes_tag_prefix', 'cherry_' );
 	}
 
 	/**
@@ -123,8 +115,8 @@ class Cherry_Main_Shortcode {
 	 * @since  1.0.0
 	 * @return string
 	 */
-	public function get_css_prefix() {
-		$prefix     = $this->get_tag_prefix();
+	public static function get_css_prefix() {
+		$prefix     = self::get_tag_prefix();
 		$css_prefix = str_replace( '_', '-', $prefix );
 
 		/**

@@ -58,14 +58,14 @@ class Cherry_Row_Shortcode extends Cherry_Main_Shortcode {
 		if ( filter_var( $atts['full_width'], FILTER_VALIDATE_BOOLEAN ) ) {
 			$result = sprintf(
 				'<div class="%1$s">%2$s</div>',
-				Cherry_Site_Tools::esc_class( array( 'row' ), $atts ),
+				Cherry_Site_Tools::esc_class( array( 'row' ), $atts, false ),
 				do_shortcode( $content )
 			);
 
 		} else {
 			$result = sprintf(
 				'<div class="container"><div class="%1$s">%2$s</div></div>',
-				Cherry_Site_Tools::esc_class( array( 'row' ), $atts ),
+				Cherry_Site_Tools::esc_class( array( 'row' ), $atts, false ),
 				do_shortcode( $content )
 			);
 		}

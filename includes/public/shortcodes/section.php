@@ -62,7 +62,7 @@ class Cherry_Section_Shortcode extends Cherry_Main_Shortcode {
 
 		$atts       = $this->shortcode_atts( $defaults, $atts );
 		$css_prefix = $this->get_css_prefix();
-		$classes    = array( $css_prefix . 'section', $css_prefix . 'section--' . $atts['background_size'] );
+		$classes    = array( 'section', 'section--' . $atts['background_size'] );
 
 		$result = sprintf(
 			'<section id="%2$ssection-%1$s" class="%3$s">%4$s</section>',
