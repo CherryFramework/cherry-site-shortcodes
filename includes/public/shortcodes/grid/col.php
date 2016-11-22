@@ -26,6 +26,34 @@ class Cherry_Col_Shortcode extends Cherry_Main_Shortcode {
 	private static $instance = null;
 
 	/**
+	 * Avaliable col classes.
+	 *
+	 * @var array
+	 */
+	private $col_class = array(
+		'col-xs',
+		'col-sm',
+		'col-md',
+		'col-lg',
+		'col-xl',
+		'col-xs-offset',
+		'col-sm-offset',
+		'col-md-offset',
+		'col-lg-offset',
+		'col-xl-offset',
+		'col-xs-push',
+		'col-sm-push',
+		'col-md-push',
+		'col-lg-push',
+		'col-xs-push',
+		'col-xs-pull',
+		'col-sm-pull',
+		'col-md-pull',
+		'col-lg-pull',
+		'col-xl-pull',
+	);
+
+	/**
 	 * Constructor method.
 	 *
 	 * @since 1.0.0
@@ -69,21 +97,23 @@ class Cherry_Col_Shortcode extends Cherry_Main_Shortcode {
 			'col-md-pull'   => '',
 			'col-lg-pull'   => '',
 			'col-xl-pull'   => '',
+			'class'         => '',
 		);
 
 		$atts = $this->shortcode_atts( $defaults, $atts );
 
 		$classes = array( 'cherry-col' );
 
-		foreach ( $atts as $key => $value ) {
-			if ( ! empty( $value ) ) {
-				$classes[] = $key . '-' . $value;
+		foreach ( $this->col_class as $key ) {
+			if ( ! empty( $atts[ $key ] ) ) {
+				$classes[] = $key . '-' . $atts[ $key ];
 			}
 		}
 
 		$result = sprintf(
-			'<div class="%1$s">%2$s</div>',
+			'<div class="%1$s%2$s">%3$s</div>',
 			Cherry_Site_Tools::esc_class( $classes ),
+			( ! empty( $atts['class'] ) ) ? ' ' . esc_attr( $atts['class'] ) : '',
 			do_shortcode( $content )
 		);
 
