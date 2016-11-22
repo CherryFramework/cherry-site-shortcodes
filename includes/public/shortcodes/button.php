@@ -57,9 +57,9 @@ class Cherry_Button_Shortcode extends Cherry_Main_Shortcode {
 		$css_prefix = $this->get_css_prefix();
 
 		$result = sprintf(
-			'<a href="%1$s" class="%2$s"><span class="%3$sbtn__text">%4$s</span></a>',
+			'<a href="%1$s" class="%2$s"><span class="%3$sbutton__text">%4$s</span></a>',
 			esc_url( $atts['href'] ),
-			Cherry_Site_Tools::esc_class( array( $css_prefix . 'button' ), $atts ),
+			Cherry_Site_Tools::esc_class( array( 'button' ), $atts ),
 			esc_attr( $css_prefix ),
 			do_shortcode( $content )
 		);

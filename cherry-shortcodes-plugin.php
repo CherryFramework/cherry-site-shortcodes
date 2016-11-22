@@ -96,7 +96,7 @@ if ( ! class_exists( 'Cherry_Site_Shortcodes' ) ) {
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ), 11 );
 
 			// Load public-facing JavaScripts.
-			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 12 );
+			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 11 );
 
 			// Register activation and deactivation hook.
 			register_activation_hook( __FILE__, array( $this, 'activation' ) );
@@ -146,7 +146,6 @@ if ( ! class_exists( 'Cherry_Site_Shortcodes' ) ) {
 			require_once( CHERRY_SITE_SHORTCODES_DIR . 'includes/public/tools.php' );
 
 			$this->shortcodes();
-
 		}
 
 		/**
@@ -257,9 +256,9 @@ if ( ! class_exists( 'Cherry_Site_Shortcodes' ) ) {
 		 */
 		public function register_assets() {
 			// Register stylesheets.
-			wp_register_style( 'cherry-site-shortcodes-styles', CHERRY_SITE_SHORTCODES_URI . 'assets/css/main.css', array(), CHERRY_SITE_SHORTCODES_VERSION, 'all' );
-			wp_register_style( 'cherry-site-shortcodes-element-styles', CHERRY_SITE_SHORTCODES_URI . 'assets/css/elements.css', array(), CHERRY_SITE_SHORTCODES_VERSION, 'all' );
-			wp_register_style( 'cherry-site-shortcodes-grid-styles', CHERRY_SITE_SHORTCODES_URI . 'assets/css/grid.css', array(), CHERRY_SITE_SHORTCODES_VERSION, 'all' );
+			wp_register_style( 'cherry-site-shortcodes-styles', CHERRY_SITE_SHORTCODES_URI . 'assets/css/min/main.min.css', array(), CHERRY_SITE_SHORTCODES_VERSION, 'all' );
+			wp_register_style( 'cherry-site-shortcodes-element-styles', CHERRY_SITE_SHORTCODES_URI . 'assets/css/min/elements.min.css', array(), CHERRY_SITE_SHORTCODES_VERSION, 'all' );
+			wp_register_style( 'cherry-site-shortcodes-grid-styles', CHERRY_SITE_SHORTCODES_URI . 'assets/css/min/grid.min.css', array(), CHERRY_SITE_SHORTCODES_VERSION, 'all' );
 
 			// Register JavaScripts.
 			wp_register_script( 'cherry-site-shortcodes-script', CHERRY_SITE_SHORTCODES_URI . 'assets/js/cherry-site-shortcodes.js', array( 'jquery', 'cherry-js-core' ), CHERRY_SITE_SHORTCODES_VERSION, true );

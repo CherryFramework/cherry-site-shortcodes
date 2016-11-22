@@ -1,9 +1,9 @@
 .#{$prefix} {
 	&button {
-		font-family: 'Raleway';
 		font-size: 15px;
 		font-weight: 600;
 		border-width: 2px;
+		padding: 10px 20px;
 		@include button;
 		&:focus {
 			box-shadow: 0 0 10px 0 currentColor;

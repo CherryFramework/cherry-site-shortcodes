@@ -54,7 +54,11 @@ class Cherry_Site_Tools {
 	 * @param  string $class
 	 * @return string
 	 */
-	public static function esc_class( $classes, $atts = array() ) {
+	public static function esc_class( $classes, $atts = array(), $prefixed = true ) {
+
+		if ( $prefixed ) {
+			array_walk( $classes, array( 'self', '_add_css_prefix' ) );
+		}
 
 		if ( ! empty( $atts['class'] ) ) {
 			$classes[] = $atts['class'];
@@ -64,5 +68,16 @@ class Cherry_Site_Tools {
 		$classes = array_filter( $classes );
 
 		return ! empty( $classes ) ? join( $classes, ' ' ) : '';
+	}
+
+	/**
+	 * Callback-function that add prefix for CSS classes.
+	 *
+	 * @since 1.0.0
+	 * @param string &$class
+	 * @param int    $index
+	 */
+	public static function _add_css_prefix( &$class, $index ) {
+		$class = Cherry_Main_Shortcode::get_css_prefix() . $class;
 	}
 }
