@@ -256,6 +256,7 @@ if ( ! class_exists( 'Cherry_Site_Shortcodes' ) ) {
 		 */
 		public function register_assets() {
 			// Register stylesheets.
+			wp_register_style( 'font-awesome', CHERRY_SITE_SHORTCODES_URI . 'assets/css/min/font-awesome.min.css', array(), '4.6.3' );
 			wp_register_style( 'cherry-site-shortcodes-styles', CHERRY_SITE_SHORTCODES_URI . 'assets/css/min/main.min.css', array(), CHERRY_SITE_SHORTCODES_VERSION, 'all' );
 			wp_register_style( 'cherry-site-shortcodes-element-styles', CHERRY_SITE_SHORTCODES_URI . 'assets/css/min/elements.min.css', array(), CHERRY_SITE_SHORTCODES_VERSION, 'all' );
 			wp_register_style( 'cherry-site-shortcodes-grid-styles', CHERRY_SITE_SHORTCODES_URI . 'assets/css/min/grid.min.css', array(), CHERRY_SITE_SHORTCODES_VERSION, 'all' );
@@ -275,6 +276,7 @@ if ( ! class_exists( 'Cherry_Site_Shortcodes' ) ) {
 			$avaliable_styles = apply_filters(
 				'cherry-site-shortcodes-avaliable-styles',
 				array(
+					'awesome' => 'font-awesome',
 					'main'    => 'cherry-site-shortcodes-styles',
 					'grid'    => 'cherry-site-shortcodes-grid-styles',
 					'element' => 'cherry-site-shortcodes-element-styles',
