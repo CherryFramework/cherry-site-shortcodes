@@ -1,0 +1,15 @@
+.#{$prefix} {
+	&divider {
+		padding-top: 1em;
+		padding-bottom: 1em;
+		text-align: center;
+		&__item{
+			border-top-width: 1px;
+			border-top-style: solid;
+			border-top-color: #e2e2e2;
+			display: inline-block;
+			width: 100%;
+			height: 0;
+		}
+	}
+}

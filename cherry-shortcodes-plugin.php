@@ -162,6 +162,7 @@ if ( ! class_exists( 'Cherry_Site_Shortcodes' ) ) {
 			require_once( CHERRY_SITE_SHORTCODES_DIR . 'includes/public/shortcodes/button.php' );
 			require_once( CHERRY_SITE_SHORTCODES_DIR . 'includes/public/shortcodes/section.php' );
 			require_once( CHERRY_SITE_SHORTCODES_DIR . 'includes/public/shortcodes/inner-section.php' );
+			require_once( CHERRY_SITE_SHORTCODES_DIR . 'includes/public/shortcodes/divider.php' );
 		}
 
 		/**
