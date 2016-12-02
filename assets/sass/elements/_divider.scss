@@ -1,15 +1,13 @@
 .#{$prefix} {
-	&divider {
-		padding-top: 1em;
-		padding-bottom: 1em;
+	&divider__item {
+		display: block;
+		width: 100%;
+		height: 0;
+		margin-right: auto;
+		margin-left: auto;
 		text-align: center;
-		&__item{
-			border-top-width: 1px;
-			border-top-style: solid;
-			border-top-color: #e2e2e2;
-			display: inline-block;
-			width: 100%;
-			height: 0;
-		}
+		vertical-align: top;
+		border-top-width: 1px;
+		border-top-style: solid;
 	}
 }

@@ -54,9 +54,9 @@ class Cherry_Divider_Shortcode extends Cherry_Main_Shortcode {
 			'height'         => '',
 			'style'          => '',
 			'color'          => '',
-			'opacity'        => '100',
-			'padding_top'    => '',
-			'padding_bottom' => '',
+			'opacity'        => '',
+			'padding_top'    => '25px',
+			'padding_bottom' => '25px',
 			'class'          => '',
 		);
 
@@ -64,10 +64,9 @@ class Cherry_Divider_Shortcode extends Cherry_Main_Shortcode {
 		$css_prefix = $this->get_css_prefix();
 
 		$result = sprintf(
-			'<div id="%1$s" class="%2$s %3$s"><span class="%2$s__item"></span></div>',
-			esc_attr( $css_prefix . 'divider-'. $atts['id'] ),
-			Cherry_Site_Tools::esc_class( array( 'divider' ), $atts ),
-			esc_attr( $atts['class'] )
+			'<div id="%1$s" class="%2$s"><span class="%2$s__item"></span></div>',
+			esc_attr( $css_prefix . 'divider-' . $atts['id'] ),
+			Cherry_Site_Tools::esc_class( array( 'divider' ), $atts )
 		);
 
 		$this->generate_dynamic_styles( $atts );
@@ -84,49 +83,50 @@ class Cherry_Divider_Shortcode extends Cherry_Main_Shortcode {
 	 */
 	public function generate_dynamic_styles( $atts ) {
 		$css_prefix = $this->get_css_prefix();
-		$divider_styles = array();
-		$divider_line_styles = array();
+		$styles     = array();
 
 		if ( ! empty( $atts['padding_top'] ) ) {
-			$divider_styles['padding-top'] = $atts['padding_top'];
+			$styles['padding-top'] = $atts['padding_top'];
 		}
 
 		if ( ! empty( $atts['padding_bottom'] ) ) {
-			$divider_styles['padding-bottom'] = $atts['padding_bottom'];
+			$styles['padding-bottom'] = $atts['padding_bottom'];
 		}
 
-		if ( ! empty( $divider_styles ) && is_array( $divider_styles ) ) {
+		if ( ! empty( $styles ) && is_array( $styles ) ) {
 			cherry_site_shortcodes()->dynamic_css->add_style(
 				esc_attr( '#' . $css_prefix . 'divider-'. $atts['id'] ),
-				$divider_styles
+				$styles
 			);
 		}
 
+		// Clear.
+		$styles = array();
+
 		if ( ! empty( $atts['width'] ) ) {
-			$divider_line_styles['width'] = $atts['width'];
+			$styles['width'] = $atts['width'];
 		}
 
 		if ( ! empty( $atts['style'] ) ) {
-			$divider_line_styles['border-top-style'] = $atts['style'];
+			$styles['border-top-style'] = $atts['style'];
 		}
 
 		if ( ! empty( $atts['height'] ) ) {
-			$divider_line_styles['border-top-width'] = $atts['height'];
+			$styles['border-top-width'] = $atts['height'];
 		}
 
 		if ( ! empty( $atts['color'] ) ) {
-			$rgb = Cherry_Site_Tools::hex_to_rgb( $atts['color'] );
+			$rgb     = Cherry_Site_Tools::hex_to_rgb( $atts['color'] );
 			$opacity = intval( $atts['opacity'] ) / 100;
-			$divider_line_styles['border-top-color'] = sprintf( 'rgba(%1$s, %2$s, %3$s, %4$s);', $rgb[0], $rgb[1], $rgb[2], $opacity );
+			$styles['border-top-color'] = sprintf( 'rgba(%1$s, %2$s, %3$s, %4$s);', $rgb[0], $rgb[1], $rgb[2], $opacity );
 		}
 
-		if ( ! empty( $divider_line_styles ) && is_array( $divider_line_styles ) ) {
+		if ( ! empty( $styles ) && is_array( $styles ) ) {
 			cherry_site_shortcodes()->dynamic_css->add_style(
-				esc_attr( '#' .$css_prefix . 'divider-'. $atts['id'] . ' .'. $css_prefix .'divider__item' ),
-				$divider_line_styles
+				esc_attr( '#' . $css_prefix . 'divider-' . $atts['id'] . ' .'. $css_prefix . 'divider__item' ),
+				$styles
 			);
 		}
-
 	}
 
 	/**
