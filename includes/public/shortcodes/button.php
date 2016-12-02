@@ -57,24 +57,30 @@ class Cherry_Button_Shortcode extends Cherry_Main_Shortcode {
 
 		$atts       = $this->shortcode_atts( $defaults, $atts );
 		$css_prefix = $this->get_css_prefix();
-
-		$button_class = array( 'button' );
+		$icon       = '';
+		$classes    = array( 'button' );
 
 		if ( ! empty( $atts['icon'] ) ) {
-			$button_class[] = 'button-icon-' . $atts['icon_position'];
+
+			$classes[] = 'button--icon-' . $atts['icon_position'];
+			$icon = sprintf(
+				'<span class="%2$sbutton__icon %1$s"></span>',
+				esc_attr( $atts['icon'] ),
+				esc_attr( $css_prefix )
+			);
 		}
 
 		$format = '<a href="%1$s" class="%2$s">%3$s<span class="%4$sbutton__text">%5$s</span></a>';
 
-		if ( 'right' === empty( $atts['icon_position'] ) ) {
+		if ( 'right' == $atts['icon_position'] ) {
 			$format = '<a href="%1$s" class="%2$s"><span class="%4$sbutton__text">%5$s</span>%3$s</a>';
 		}
 
 		$result = sprintf(
 			$format,
 			esc_url( $atts['href'] ),
-			Cherry_Site_Tools::esc_class( $button_class, $atts ),
-			( ! empty( $atts['icon'] ) ) ? sprintf( '<span class="cherry-button__icon %1$s"></span>', $atts['icon'] ) : '',
+			Cherry_Site_Tools::esc_class( $classes, $atts ),
+			$icon,
 			esc_attr( $css_prefix ),
 			do_shortcode( $content )
 		);
