@@ -112,9 +112,8 @@ class Cherry_Col_Shortcode extends Cherry_Main_Shortcode {
 		}
 
 		$result = sprintf(
-			'<div class="%1$s%2$s">%3$s</div>',
-			Cherry_Site_Tools::esc_class( $classes, array(), false ),
-			( ! empty( $atts['class'] ) ) ? ' ' . esc_attr( $atts['class'] ) : '',
+			'<div class="%1$s">%2$s</div>',
+			Cherry_Site_Tools::esc_class( $classes, $atts, false ),
 			do_shortcode( $content )
 		);
 
