@@ -62,13 +62,11 @@
 
 .cherry-icon {
   display: inline-block;
-}
-.cherry-icon__link {
-  display: block;
+  vertical-align: middle;
 }
 .cherry-icon__image {
   width: 100%;
 }
 .cherry-icon__symbol {
-  font-size: 30px;
+  font-size: 2em;
 }

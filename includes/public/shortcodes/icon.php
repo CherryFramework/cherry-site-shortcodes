@@ -49,35 +49,26 @@ class Cherry_Icon_Shortcode extends Cherry_Main_Shortcode {
 
 		// Set up the default arguments.
 		$defaults = array(
-			'id'             => uniqid(),
-			'icon'           => '',
-			'image'          => '',
-			'size'           => '',
-			'color'          => '',
-			'opacity'        => '',
-			'href'           => '#',
-			'padding'        => '',
-			'custom_class'   => '',
+			'id'      => uniqid(),
+			'icon'    => 'fa fa-wordpress',
+			'image'   => '',
+			'size'    => '',
+			'color'   => '',
+			'opacity' => '',
+			'href'    => '#',
+			'padding' => '',
+			'class'   => '',
 		);
 
 		$atts       = $this->shortcode_atts( $defaults, $atts );
 		$css_prefix = $this->get_css_prefix();
-
-		$format = '<div id="%1$s" class="%2$s%3$s"><a href="%4$s" class="%2$s__link">%5$s</a></div>';
-		$classes = array();
-
-		if ( ! empty( $atts['custom_class'] ) ) {
-			$classes[] = esc_attr( $atts['custom_class'] );
-		}
-
-		if ( empty( $atts['href'] ) ) {
-			$format = '<div id="%1$s" class="%2$s%3$s">%5$s</div>';
-		}
+		$class      = $css_prefix . 'icon';
+		$classes    = array( 'icon' );
 
 		$icon = sprintf(
 			'<span class="%1$s__symbol %2$s"></span>',
-			Cherry_Site_Tools::esc_class( array( 'icon' ), $atts ),
-			( ! empty( $atts['icon'] ) ) ? $atts['icon'] : 'fa fa-wordpress'
+			esc_attr( $class ),
+			$atts['icon']
 		);
 
 		if ( ! empty( $atts['image'] ) ) {
@@ -85,21 +76,25 @@ class Cherry_Icon_Shortcode extends Cherry_Main_Shortcode {
 
 			$icon = sprintf(
 			'<img class="%1$s__image" src="%2$s" alt="">',
-				Cherry_Site_Tools::esc_class( array( 'icon' ), $atts ),
+				esc_attr( $class ),
 				esc_url( $image[0] )
 			);
 
-			$classes[] = $css_prefix . 'icon-image';
+			$classes[] = 'icon--image';
 		}
 
-		$classes = ' ' . implode( ' ', $classes );
+		$format = '<div id="%1$s" class="%2$s"><a href="%4$s" class="%3$s__link">%5$s</a></div>';
+
+		if ( empty( $atts['href'] ) ) {
+			$format = '<div id="%1$s" class="%2$s">%5$s</div>';
+		}
 
 		$result = sprintf(
 			$format,
 			esc_attr( $css_prefix . 'icon-'. $atts['id'] ),
-			Cherry_Site_Tools::esc_class( array( 'icon' ), $atts ),
-			esc_attr( $classes ),
-			$atts['href'],
+			Cherry_Site_Tools::esc_class( $classes, $atts ),
+			esc_attr( $class ),
+			esc_url( $atts['href'] ),
 			$icon
 		);
 
@@ -116,8 +111,8 @@ class Cherry_Icon_Shortcode extends Cherry_Main_Shortcode {
 	 * @return void
 	 */
 	public function generate_dynamic_styles( $atts ) {
-		$css_prefix = $this->get_css_prefix();
-		$styles = array();
+		$css_prefix  = $this->get_css_prefix();
+		$styles      = array();
 		$icon_styles = array();
 
 		if ( ! empty( $atts['padding'] ) ) {
@@ -125,14 +120,21 @@ class Cherry_Icon_Shortcode extends Cherry_Main_Shortcode {
 		}
 
 		if ( ! empty( $atts['color'] ) ) {
-			$rgb = Cherry_Site_Tools::hex_to_rgb( $atts['color'] );
+			$rgb     = Cherry_Site_Tools::hex_to_rgb( $atts['color'] );
 			$opacity = intval( $atts['opacity'] ) / 100;
 			$styles['color'] = sprintf( 'rgba(%1$s, %2$s, %3$s, %4$s);', $rgb[0], $rgb[1], $rgb[2], $opacity );
 		}
 
 		if ( ! empty( $styles ) && is_array( $styles ) ) {
+
+			$selector = '#' . $css_prefix . 'icon-' . $atts['id'];
+
+			if ( ! empty( $atts['href'] ) ) {
+				$selector .= ' .' . $css_prefix . 'icon__link';
+			}
+
 			cherry_site_shortcodes()->dynamic_css->add_style(
-				esc_attr( '#' . $css_prefix . 'icon-'. $atts['id'] ),
+				esc_attr( $selector ),
 				$styles
 			);
 		}
@@ -143,11 +145,10 @@ class Cherry_Icon_Shortcode extends Cherry_Main_Shortcode {
 
 		if ( ! empty( $icon_styles ) && is_array( $icon_styles ) ) {
 			cherry_site_shortcodes()->dynamic_css->add_style(
-				esc_attr( '#' .$css_prefix . 'icon-'. $atts['id'] . ' .'. $css_prefix .'icon__symbol' ),
+				esc_attr( '#' . $css_prefix . 'icon-'. $atts['id'] . ' .' . $css_prefix . 'icon__symbol' ),
 				$icon_styles
 			);
 		}
-
 	}
 
 	/**
