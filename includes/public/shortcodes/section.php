@@ -110,11 +110,11 @@ class Cherry_Section_Shortcode extends Cherry_Main_Shortcode {
 		}
 
 		if ( ! empty( $atts['padding_top'] ) ) {
-			$styles['padding-top'] = $atts['padding_top'];
+			$styles['padding-top'] = $atts['padding_top'] . 'px';
 		}
 
 		if ( ! empty( $atts['padding_bottom'] ) ) {
-			$styles['padding-bottom'] = $atts['padding_bottom'];
+			$styles['padding-bottom'] = $atts['padding_bottom'] . 'px';
 		}
 
 		if ( empty( $styles ) || ! is_array( $styles ) ) {

@@ -206,7 +206,22 @@ if ( ! class_exists( 'Cherry_Site_Shortcodes' ) ) {
 					'cherry-toolkit' => array(
 						'autoload' => false,
 					),
+					'cherry-utility' => array(
+						'autoload' => false,
+					),
 					'cherry-dynamic-css' => array(
+						'autoload' => false,
+					),
+					'cherry-ui-elements' => array(
+						'autoload' => false,
+					),
+					'cherry-interface-builder' => array(
+						'autoload' => false,
+					),
+					'cherry-handler' => array(
+						'autoload' => false,
+					),
+					'cherry5-insert-shortcode' => array(
 						'autoload' => false,
 					),
 				),
@@ -236,7 +251,7 @@ if ( ! class_exists( 'Cherry_Site_Shortcodes' ) ) {
 		public function admin() {
 
 			if ( is_admin() ) {
-				//require_once( BLANK_PLUGIN_DIR . 'includes/admin/class-plugin-admin.php' );
+				require_once( CHERRY_SITE_SHORTCODES_DIR . 'includes/admin/class-shortcodes-admin.php' );
 			}
 		}
 
