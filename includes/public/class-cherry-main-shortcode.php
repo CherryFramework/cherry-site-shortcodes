@@ -39,8 +39,8 @@ class Cherry_Main_Shortcode {
 	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'register_shortcode' ) );
-	}
 
+}
 	/**
 	 * Register shortcode.
 	 *

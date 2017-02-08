@@ -176,7 +176,67 @@ class Cherry_Shortcodes_Admin {
 							'icon'        => '<span class="dashicons dashicons-screenoptions"></span>',
 							'slug'        => 'cherry_col',
 							'enclosing'   => true,
-							'options'     => array(),
+							'options'     => array(
+								'col-xs' => array(
+									'type'             => 'select',
+									'title'            => esc_html__( 'Column xs layout', 'cherry-site-shortcodes' ),
+									'description'      => esc_html__( 'Select column layout for extra small devices', 'cherry-site-shortcodes' ),
+									'multiple'         => false,
+									'filter'           => true,
+									'value'            => array( '' ),
+									'options_callback' => array( $this, 'get_device_column_cases' ),
+									'placeholder'      => esc_html__( 'Select value', 'cherry-site-shortcodes' ),
+								),
+								'col-sm' => array(
+									'type'             => 'select',
+									'title'            => esc_html__( 'Column sm layout', 'cherry-site-shortcodes' ),
+									'description'      => esc_html__( 'Select column layout for small devices', 'cherry-site-shortcodes' ),
+									'multiple'         => false,
+									'filter'           => true,
+									'value'            => array( '' ),
+									'options_callback' => array( $this, 'get_device_column_cases' ),
+									'placeholder'      => esc_html__( 'Select value', 'cherry-site-shortcodes' ),
+								),
+								'col-md' => array(
+									'type'             => 'select',
+									'title'            => esc_html__( 'Column md layout', 'cherry-site-shortcodes' ),
+									'description'      => esc_html__( 'Select column layout for medium devices', 'cherry-site-shortcodes' ),
+									'multiple'         => false,
+									'filter'           => true,
+									'value'            => array( '' ),
+									'options_callback' => array( $this, 'get_device_column_cases' ),
+									'placeholder'      => esc_html__( 'Select value', 'cherry-site-shortcodes' ),
+								),
+								'col-lg' => array(
+									'type'             => 'select',
+									'title'            => esc_html__( 'Column lg layout', 'cherry-site-shortcodes' ),
+									'description'      => esc_html__( 'Select column layout for large devices', 'cherry-site-shortcodes' ),
+									'multiple'         => false,
+									'filter'           => true,
+									'value'            => array( '' ),
+									'options_callback' => array( $this, 'get_device_column_cases' ),
+									'placeholder'      => esc_html__( 'Select value', 'cherry-site-shortcodes' ),
+								),
+								'col-xl' => array(
+									'type'             => 'select',
+									'title'            => esc_html__( 'Column xl layout', 'cherry-site-shortcodes' ),
+									'description'      => esc_html__( 'Select column layout for extra large devices', 'cherry-site-shortcodes' ),
+									'multiple'         => false,
+									'filter'           => true,
+									'value'            => array( '' ),
+									'options_callback' => array( $this, 'get_device_column_cases' ),
+									'placeholder'      => esc_html__( 'Select value', 'cherry-site-shortcodes' ),
+								),
+								'class' => array(
+									'type'        => 'text',
+									'title'       => esc_html__( 'Custom class', 'cherry-site-shortcodes' ),
+									'description' => esc_html__( 'Assign custom class to the column', 'cherry-site-shortcodes' ),
+									'value'       => '',
+									'placeholder' => esc_html__( 'Input class', 'cherry-site-shortcodes' ),
+									'class'       => '',
+									'label'       => '',
+								),
+							),
 						),
 						array(
 							'title'       => esc_html__( 'Inner column', 'cherry-site-shortcodes' ),
@@ -190,6 +250,30 @@ class Cherry_Shortcodes_Admin {
 					),//end shortcode list
 				)
 			);
+	}
+
+	/**
+	 * Get device column cases.
+	 *
+	 * @since  1.0.0
+	 * @return object
+	 */
+	public function get_device_column_cases() {
+		return array(
+			''  => esc_html__( 'Skip xs value', 'cherry-site-shortcodes' ),
+			'1'  => '1/12',
+			'2'  => '2/12',
+			'3'  => '3/12',
+			'4'  => '4/12',
+			'5'  => '5/12',
+			'6'  => '6/12',
+			'7'  => '7/12',
+			'8'  => '8/12',
+			'9'  => '9/12',
+			'10' => '10/12',
+			'11' => '11/12',
+			'12' => esc_html__( 'Fullwidth column', 'cherry-site-shortcodes' ),
+		);
 	}
 
 	/**
