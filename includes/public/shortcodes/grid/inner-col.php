@@ -34,6 +34,26 @@ class Cherry_Inner_Col_Shortcode extends Cherry_Col_Shortcode {
 		$this->name = 'inner_col';
 
 		Cherry_Main_Shortcode::__construct();
+
+		if ( is_admin() ) {
+			add_action( 'after_setup_theme', array( $this, 'shortcode_registration' ), 9 );
+		}
+	}
+
+	/**
+	 * Define fields settings.
+	 *
+	 * @return viod
+	 */
+	public function shortcode_registration() {
+		cherry_shortcodes_admin()->grid_shortcodes_settings[] = array(
+			'title'       => esc_html__( 'Inner Column', 'cherry-site-shortcodes' ),
+			'description' => esc_html__( 'Shortcode is used for inserting grid column', 'cherry-site-shortcodes' ),
+			'icon'        => '<span class="dashicons dashicons-screenoptions"></span>',
+			'slug'        => 'cherry_inner_col',
+			'enclosing'   => true,
+			'options'     => parent::get_column_shortcode_settings(),
+		);
 	}
 
 	/**

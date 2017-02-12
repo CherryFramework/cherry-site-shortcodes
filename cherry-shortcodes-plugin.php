@@ -239,6 +239,8 @@ if ( ! class_exists( 'Cherry_Site_Shortcodes' ) ) {
 		 */
 		public function init_modules() {
 			$this->dynamic_css = $this->get_core()->init_module( 'cherry-dynamic-css' );
+
+			$this->get_core()->init_module( 'cherry5-insert-shortcode', array() );
 		}
 
 		/**

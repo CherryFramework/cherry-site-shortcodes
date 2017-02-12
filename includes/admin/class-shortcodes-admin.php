@@ -20,6 +20,20 @@ class Cherry_Shortcodes_Admin {
 	private static $instance = null;
 
 	/**
+	 * Grid shortcodes settings.
+	 *
+	 * @var array
+	 */
+	public $grid_shortcodes_settings = array();
+
+	/**
+	 * Base shortcodes settings.
+	 *
+	 * @var array
+	 */
+	public $base_shortcodes_settings = array();
+
+	/**
 	 * Sets up needed actions/filters for the admin to initialize.
 	 *
 	 * @since  1.0.0
@@ -37,13 +51,21 @@ class Cherry_Shortcodes_Admin {
 	 * @return void
 	 */
 	public function shortcode_registration() {
-		cherry_site_shortcodes()->get_core()->init_module( 'cherry5-insert-shortcode', array() );
-
 		//$utility = cherry_site_shortcodes()->get_core()->modules['cherry-utility']->utility;
+		// Grid Shortcodes list
+		cherry5_register_shortcode(
+				array(
+					'title'       => esc_html__( 'Grid Shortcodes', 'cherry-site-shortcodes' ),
+					'description' => esc_html__( 'Grid cherry shortcode collection. Using BootStrap4 base grid', 'cherry-site-shortcodes' ),
+					'icon'        => '<span class="dashicons dashicons-screenoptions"></span>',
+					'slug'        => 'cherry-grid-shortcodes',
+					'shortcodes'  => $this->grid_shortcodes_settings,
+				)
+		);
 
 		cherry5_register_shortcode(
 				array(
-					'title'       => esc_html__( 'General Shortcodes', 'cherry-site-shortcodes' ),
+					'title'       => esc_html__( 'Basic Shortcodes', 'cherry-site-shortcodes' ),
 					'description' => esc_html__( 'Base cherry shortcode collection', 'cherry-site-shortcodes' ),
 					'icon'        => '<span class="dashicons dashicons-admin-generic"></span>',
 					'slug'        => 'cherry-shortcodes',
@@ -56,7 +78,6 @@ class Cherry_Shortcodes_Admin {
 							'slug'        => 'cherry_section',
 							'enclosing'   => true,
 							'options'     => array(
-
 								'background_type' => array(
 									'type'          => 'radio',
 									'title'         => esc_html__( 'Background type', 'cherry-site-shortcodes' ),
@@ -145,135 +166,6 @@ class Cherry_Shortcodes_Admin {
 				)
 			);
 
-		// Grid Shortcodes list
-		cherry5_register_shortcode(
-				array(
-					'title'       => esc_html__( 'Grid Shortcodes', 'cherry-site-shortcodes' ),
-					'description' => esc_html__( 'Grid cherry shortcode collection. Using BootStrap4 base grid', 'cherry-site-shortcodes' ),
-					'icon'        => '<span class="dashicons dashicons-screenoptions"></span>',
-					'slug'        => 'cherry-grid-shortcodes',
-					'shortcodes'  => array(
-
-						array(
-							'title'       => esc_html__( 'Row', 'cherry-site-shortcodes' ),
-							'description' => esc_html__( 'Shortcode is used for inserting row wrapper', 'cherry-site-shortcodes' ),
-							'icon'        => '<span class="dashicons dashicons-screenoptions"></span>',
-							'slug'        => 'cherry_row',
-							'enclosing'   => true,
-							'options'     => array(),
-						),
-						array(
-							'title'       => esc_html__( 'Inner Row', 'cherry-site-shortcodes' ),
-							'description' => esc_html__( 'Shortcode is used for inserting inner row wrapper', 'cherry-site-shortcodes' ),
-							'icon'        => '<span class="dashicons dashicons-screenoptions"></span>',
-							'slug'        => 'cherry_inner_row',
-							'enclosing'   => true,
-							'options'     => array(),
-						),
-						array(
-							'title'       => esc_html__( 'Column', 'cherry-site-shortcodes' ),
-							'description' => esc_html__( 'Shortcode is used for inserting grid column', 'cherry-site-shortcodes' ),
-							'icon'        => '<span class="dashicons dashicons-screenoptions"></span>',
-							'slug'        => 'cherry_col',
-							'enclosing'   => true,
-							'options'     => array(
-								'col-xs' => array(
-									'type'             => 'select',
-									'title'            => esc_html__( 'Column xs layout', 'cherry-site-shortcodes' ),
-									'description'      => esc_html__( 'Select column layout for extra small devices', 'cherry-site-shortcodes' ),
-									'multiple'         => false,
-									'filter'           => true,
-									'value'            => array( '' ),
-									'options_callback' => array( $this, 'get_device_column_cases' ),
-									'placeholder'      => esc_html__( 'Select value', 'cherry-site-shortcodes' ),
-								),
-								'col-sm' => array(
-									'type'             => 'select',
-									'title'            => esc_html__( 'Column sm layout', 'cherry-site-shortcodes' ),
-									'description'      => esc_html__( 'Select column layout for small devices', 'cherry-site-shortcodes' ),
-									'multiple'         => false,
-									'filter'           => true,
-									'value'            => array( '' ),
-									'options_callback' => array( $this, 'get_device_column_cases' ),
-									'placeholder'      => esc_html__( 'Select value', 'cherry-site-shortcodes' ),
-								),
-								'col-md' => array(
-									'type'             => 'select',
-									'title'            => esc_html__( 'Column md layout', 'cherry-site-shortcodes' ),
-									'description'      => esc_html__( 'Select column layout for medium devices', 'cherry-site-shortcodes' ),
-									'multiple'         => false,
-									'filter'           => true,
-									'value'            => array( '' ),
-									'options_callback' => array( $this, 'get_device_column_cases' ),
-									'placeholder'      => esc_html__( 'Select value', 'cherry-site-shortcodes' ),
-								),
-								'col-lg' => array(
-									'type'             => 'select',
-									'title'            => esc_html__( 'Column lg layout', 'cherry-site-shortcodes' ),
-									'description'      => esc_html__( 'Select column layout for large devices', 'cherry-site-shortcodes' ),
-									'multiple'         => false,
-									'filter'           => true,
-									'value'            => array( '' ),
-									'options_callback' => array( $this, 'get_device_column_cases' ),
-									'placeholder'      => esc_html__( 'Select value', 'cherry-site-shortcodes' ),
-								),
-								'col-xl' => array(
-									'type'             => 'select',
-									'title'            => esc_html__( 'Column xl layout', 'cherry-site-shortcodes' ),
-									'description'      => esc_html__( 'Select column layout for extra large devices', 'cherry-site-shortcodes' ),
-									'multiple'         => false,
-									'filter'           => true,
-									'value'            => array( '' ),
-									'options_callback' => array( $this, 'get_device_column_cases' ),
-									'placeholder'      => esc_html__( 'Select value', 'cherry-site-shortcodes' ),
-								),
-								'class' => array(
-									'type'        => 'text',
-									'title'       => esc_html__( 'Custom class', 'cherry-site-shortcodes' ),
-									'description' => esc_html__( 'Assign custom class to the column', 'cherry-site-shortcodes' ),
-									'value'       => '',
-									'placeholder' => esc_html__( 'Input class', 'cherry-site-shortcodes' ),
-									'class'       => '',
-									'label'       => '',
-								),
-							),
-						),
-						array(
-							'title'       => esc_html__( 'Inner column', 'cherry-site-shortcodes' ),
-							'description' => esc_html__( 'Shortcode is used for inserting inner grid column', 'cherry-site-shortcodes' ),
-							'icon'        => '<span class="dashicons dashicons-screenoptions"></span>',
-							'slug'        => 'cherry_inner_col',
-							'enclosing'   => true,
-							'options'     => array(),
-						),
-
-					),//end shortcode list
-				)
-			);
-	}
-
-	/**
-	 * Get device column cases.
-	 *
-	 * @since  1.0.0
-	 * @return object
-	 */
-	public function get_device_column_cases() {
-		return array(
-			''  => esc_html__( 'Skip xs value', 'cherry-site-shortcodes' ),
-			'1'  => '1/12',
-			'2'  => '2/12',
-			'3'  => '3/12',
-			'4'  => '4/12',
-			'5'  => '5/12',
-			'6'  => '6/12',
-			'7'  => '7/12',
-			'8'  => '8/12',
-			'9'  => '9/12',
-			'10' => '10/12',
-			'11' => '11/12',
-			'12' => esc_html__( 'Fullwidth column', 'cherry-site-shortcodes' ),
-		);
 	}
 
 	/**

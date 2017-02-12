@@ -34,6 +34,42 @@ class Cherry_Row_Shortcode extends Cherry_Main_Shortcode {
 		$this->name = 'row';
 
 		parent::__construct();
+
+		if ( is_admin() ) {
+			add_action( 'after_setup_theme', array( $this, 'shortcode_registration' ), 9 );
+		}
+	}
+
+	/**
+	 * Define fields settings.
+	 *
+	 * @return viod
+	 */
+	public function shortcode_registration() {
+		cherry_shortcodes_admin()->grid_shortcodes_settings[] = array(
+			'title'       => esc_html__( 'Row', 'cherry-site-shortcodes' ),
+			'description' => esc_html__( 'Shortcode is used for inserting row wrapper', 'cherry-site-shortcodes' ),
+			'icon'        => '<span class="dashicons dashicons-screenoptions"></span>',
+			'slug'        => 'cherry_row',
+			'enclosing'   => true,
+			'options'     => array(
+				'full_width' => array(
+					'type'         => 'switcher',
+					'title'        => esc_html__( 'Make this row fullwidth', 'cherry-site-shortcodes' ),
+					'description'  => esc_html__( 'Enable this option to extend the width of this row to the edge of the browser window.', 'cherry-site-shortcodes' ),
+					'value'        => 'false',
+				),
+				'class' => array(
+					'type'        => 'text',
+					'title'       => esc_html__( 'Custom class', 'cherry-site-shortcodes' ),
+					'description' => esc_html__( 'Assign custom class to the row', 'cherry-site-shortcodes' ),
+					'value'       => '',
+					'placeholder' => esc_html__( 'Input class', 'cherry-site-shortcodes' ),
+					'class'       => '',
+					'label'       => '',
+				),
+			),
+		);
 	}
 
 	/**
