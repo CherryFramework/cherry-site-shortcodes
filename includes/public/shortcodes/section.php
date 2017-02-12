@@ -52,7 +52,59 @@ class Cherry_Section_Shortcode extends Cherry_Main_Shortcode {
 			'icon'        => '<span class="dashicons dashicons-align-center"></span>',
 			'slug'        => 'cherry_section',
 			'enclosing'   => true,
-			'options'     => array(
+			'options'     => $this->get_section_shortcode_fields(),
+
+		);
+	}
+
+	/**
+	 * The shortcode callback function.
+	 *
+	 * @since  1.0.0
+	 * @param  array  $atts
+	 * @param  string $content
+	 * @param  string $shortcode
+	 * @return string
+	 */
+	public function do_shortcode( $atts, $content = null, $shortcode ) {
+
+		// Set up the default arguments.
+		$defaults = array(
+			'id'                 => uniqid(),
+			'background_type'    => 'fill-color',
+			'background_color'   => '',
+			'background_opacity' => '100',
+			'background_image'   => '',
+			'background_size'    => 'cover',
+			'padding_top'        => '',
+			'padding_bottom'     => '',
+			'class'              => '',
+		);
+
+		$atts       = $this->shortcode_atts( $defaults, $atts );
+		$css_prefix = $this->get_css_prefix();
+		$classes    = array( 'section', 'section--' . $atts['background_size'] );
+
+		$result = sprintf(
+			'<section id="%2$ssection-%1$s" class="%3$s">%4$s</section>',
+			esc_attr( $atts['id'] ),
+			esc_attr( $css_prefix ),
+			Cherry_Site_Tools::esc_class( $classes, $atts ),
+			do_shortcode( $content )
+		);
+
+		$this->generate_dynamic_styles( $atts );
+
+		return apply_filters( 'cherry_shortcode_result', $result, $atts, $shortcode );
+	}
+
+	/**
+	 * Get section shortcode fields.
+	 *
+	 * @return array
+	 */
+	public function get_section_shortcode_fields() {
+		return array(
 				'background_type' => array(
 					'type'          => 'radio',
 					'title'         => esc_html__( 'Background type', 'cherry-site-shortcodes' ),
@@ -133,52 +185,8 @@ class Cherry_Section_Shortcode extends Cherry_Main_Shortcode {
 					'placeholder' => esc_html__( 'Input class', 'cherry-site-shortcodes' ),
 					'class'       => '',
 				),
-			),
-
-		);
+			);
 	}
-
-	/**
-	 * The shortcode callback function.
-	 *
-	 * @since  1.0.0
-	 * @param  array  $atts
-	 * @param  string $content
-	 * @param  string $shortcode
-	 * @return string
-	 */
-	public function do_shortcode( $atts, $content = null, $shortcode ) {
-
-		// Set up the default arguments.
-		$defaults = array(
-			'id'                 => uniqid(),
-			'background_type'    => 'fill-color',
-			'background_color'   => '',
-			'background_opacity' => '100',
-			'background_image'   => '',
-			'background_size'    => 'cover',
-			'padding_top'        => '',
-			'padding_bottom'     => '',
-			'class'              => '',
-		);
-
-		$atts       = $this->shortcode_atts( $defaults, $atts );
-		$css_prefix = $this->get_css_prefix();
-		$classes    = array( 'section', 'section--' . $atts['background_size'] );
-
-		$result = sprintf(
-			'<section id="%2$ssection-%1$s" class="%3$s">%4$s</section>',
-			esc_attr( $atts['id'] ),
-			esc_attr( $css_prefix ),
-			Cherry_Site_Tools::esc_class( $classes, $atts ),
-			do_shortcode( $content )
-		);
-
-		$this->generate_dynamic_styles( $atts );
-
-		return apply_filters( 'cherry_shortcode_result', $result, $atts, $shortcode );
-	}
-
 	/**
 	 * Generate dynamic CSS styles for shortcode instance.
 	 *

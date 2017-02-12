@@ -34,6 +34,27 @@ class Cherry_Inner_Section_Shortcode extends Cherry_Section_Shortcode {
 		$this->name = 'inner_section';
 
 		Cherry_Main_Shortcode::__construct();
+
+		if ( is_admin() ) {
+			add_action( 'after_setup_theme', array( $this, 'shortcode_registration' ), 9 );
+		}
+	}
+
+	/**
+	 * Define fields settings.
+	 *
+	 * @return viod
+	 */
+	public function shortcode_registration() {
+		cherry_shortcodes_admin()->base_shortcodes_settings[] = array(
+			'title'       => esc_html__( 'Inner Section', 'cherry-site-shortcodes' ),
+			'description' => esc_html__( 'Shortcode is used to display the content section', 'cherry-site-shortcodes' ),
+			'icon'        => '<span class="dashicons dashicons-align-center"></span>',
+			'slug'        => 'cherry_inner_section',
+			'enclosing'   => true,
+			'options'     => parent::get_section_shortcode_fields(),
+
+		);
 	}
 
 	/**
