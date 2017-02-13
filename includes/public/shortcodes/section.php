@@ -123,7 +123,7 @@ class Cherry_Section_Shortcode extends Cherry_Main_Shortcode {
 				'background_color' => array(
 					'type'        => 'colorpicker',
 					'title'       => esc_html__( 'Background fill color', 'cherry-site-shortcodes' ),
-					'description' => esc_html__( 'Description color picker.', 'cherry-site-shortcodes' ),
+					'description' => esc_html__( 'Define color for section background(fill-color mode)', 'cherry-site-shortcodes' ),
 					'value'       => '',
 				),
 				'background_opacity' => array(

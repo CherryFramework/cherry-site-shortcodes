@@ -34,6 +34,99 @@ class Cherry_Divider_Shortcode extends Cherry_Main_Shortcode {
 		$this->name = 'divider';
 
 		parent::__construct();
+
+		if ( is_admin() ) {
+			add_action( 'after_setup_theme', array( $this, 'shortcode_registration' ), 9 );
+		}
+	}
+
+	/**
+	 * Define fields settings.
+	 *
+	 * @return viod
+	 */
+	public function shortcode_registration() {
+		cherry_shortcodes_admin()->base_shortcodes_settings[] = array(
+			'title'       => esc_html__( 'Divider', 'cherry-site-shortcodes' ),
+			'description' => esc_html__( 'Shortcode is used to display the divider', 'cherry-site-shortcodes' ),
+			'icon'        => '<span class="dashicons dashicons-align-center"></span>',
+			'slug'        => 'cherry_divider',
+			'enclosing'   => false,
+			'options'     => array(
+				'width' => array(
+					'type'        => 'slider',
+					'title'       => esc_html__( 'Divider width', 'cherry-site-shortcodes' ),
+					'description' => esc_html__( 'Select value for divider width(%)', 'cherry-site-shortcodes' ),
+					'max_value'   => 100,
+					'min_value'   => 0,
+					'value'       => 100,
+				),
+				'height' => array(
+					'type'        => 'slider',
+					'title'       => esc_html__( 'Divider height', 'cherry-site-shortcodes' ),
+					'description' => esc_html__( 'Select value for divider height(px)', 'cherry-site-shortcodes' ),
+					'max_value'   => 100,
+					'min_value'   => 1,
+					'value'       => 1,
+				),
+				'style' => array(
+					'type'          => 'select',
+					'title'         => esc_html__( 'Border Style', 'cherry-site-shortcodes' ),
+					'description'   => esc_html__( 'Select border style(css border styles)', 'cherry-site-shortcodes' ),
+					'filter'        => true,
+					'value'         => 'solid',
+					'options'       => array(
+						'solid'  => esc_html__( 'Solid', 'cherry-site-shortcodes' ),
+						'dotted' => esc_html__( 'Dotted', 'cherry-site-shortcodes' ),
+						'dashed' => esc_html__( 'Dashed', 'cherry-site-shortcodes' ),
+						'double' => esc_html__( 'Double', 'cherry-site-shortcodes' ),
+						'groove' => esc_html__( 'Groove', 'cherry-site-shortcodes' ),
+						'ridge'  => esc_html__( 'Ridge', 'cherry-site-shortcodes' ),
+						'inset'  => esc_html__( 'Inset', 'cherry-site-shortcodes' ),
+						'outset' => esc_html__( 'Outset', 'cherry-site-shortcodes' ),
+					),
+					'placeholder'   => esc_html__( 'Select style', 'cherry-site-shortcodes' ),
+				),
+				'color' => array(
+					'type'        => 'colorpicker',
+					'title'       => esc_html__( 'Border color', 'cherry-site-shortcodes' ),
+					'description' => esc_html__( 'Define color for divider', 'cherry-site-shortcodes' ),
+					'value'       => '#000',
+				),
+				'opacity' => array(
+					'type'        => 'slider',
+					'title'       => esc_html__( 'Divider opacity', 'cherry-site-shortcodes' ),
+					'description' => esc_html__( 'Select value for divider opacity(%)', 'cherry-site-shortcodes' ),
+					'max_value'   => 100,
+					'min_value'   => 0,
+					'value'       => 100,
+				),
+				'padding_top' => array(
+					'type'        => 'slider',
+					'title'       => esc_html__( 'Divider top padding', 'cherry-site-shortcodes' ),
+					'description' => esc_html__( 'Select value for divider top padding(px)', 'cherry-site-shortcodes' ),
+					'max_value'   => 500,
+					'min_value'   => 0,
+					'value'       => 25,
+				),
+				'padding_bottom' => array(
+					'type'        => 'slider',
+					'title'       => esc_html__( 'Divider bottom padding', 'cherry-site-shortcodes' ),
+					'description' => esc_html__( 'Select value for divider bottom padding(px)', 'cherry-site-shortcodes' ),
+					'max_value'   => 500,
+					'min_value'   => 0,
+					'value'       => 25,
+				),
+				'class' => array(
+					'type'        => 'text',
+					'title'       => esc_html__( 'Custom class', 'cherry-site-shortcodes' ),
+					'description' => esc_html__( 'Assign cusstom class for for section', 'cherry-site-shortcodes' ),
+					'value'       => '',
+					'placeholder' => esc_html__( 'Input class', 'cherry-site-shortcodes' ),
+					'class'       => '',
+				),
+			),
+		);
 	}
 
 	/**
@@ -55,8 +148,8 @@ class Cherry_Divider_Shortcode extends Cherry_Main_Shortcode {
 			'style'          => '',
 			'color'          => '',
 			'opacity'        => '',
-			'padding_top'    => '25px',
-			'padding_bottom' => '25px',
+			'padding_top'    => '25',
+			'padding_bottom' => '25',
 			'class'          => '',
 		);
 
@@ -64,9 +157,10 @@ class Cherry_Divider_Shortcode extends Cherry_Main_Shortcode {
 		$css_prefix = $this->get_css_prefix();
 
 		$result = sprintf(
-			'<div id="%1$s" class="%2$s"><span class="%2$s__item"></span></div>',
+			'<div id="%1$s" class="%2$s"><span class="%3$s__item"></span></div>',
 			esc_attr( $css_prefix . 'divider-' . $atts['id'] ),
-			Cherry_Site_Tools::esc_class( array( 'divider' ), $atts )
+			Cherry_Site_Tools::esc_class( array( 'divider' ), $atts ),
+			esc_attr( 'cherry-divider' )
 		);
 
 		$this->generate_dynamic_styles( $atts );
@@ -86,11 +180,11 @@ class Cherry_Divider_Shortcode extends Cherry_Main_Shortcode {
 		$styles     = array();
 
 		if ( ! empty( $atts['padding_top'] ) ) {
-			$styles['padding-top'] = $atts['padding_top'];
+			$styles['padding-top'] = $atts['padding_top'] . 'px';
 		}
 
 		if ( ! empty( $atts['padding_bottom'] ) ) {
-			$styles['padding-bottom'] = $atts['padding_bottom'];
+			$styles['padding-bottom'] = $atts['padding_bottom'] . 'px';
 		}
 
 		if ( ! empty( $styles ) && is_array( $styles ) ) {
@@ -104,7 +198,7 @@ class Cherry_Divider_Shortcode extends Cherry_Main_Shortcode {
 		$styles = array();
 
 		if ( ! empty( $atts['width'] ) ) {
-			$styles['width'] = $atts['width'];
+			$styles['width'] = $atts['width'] . '%';
 		}
 
 		if ( ! empty( $atts['style'] ) ) {
@@ -112,7 +206,7 @@ class Cherry_Divider_Shortcode extends Cherry_Main_Shortcode {
 		}
 
 		if ( ! empty( $atts['height'] ) ) {
-			$styles['border-top-width'] = $atts['height'];
+			$styles['border-top-width'] = $atts['height'] . 'px';
 		}
 
 		if ( ! empty( $atts['color'] ) ) {
