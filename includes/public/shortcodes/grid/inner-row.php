@@ -49,7 +49,7 @@ class Cherry_Inner_Row_Shortcode extends Cherry_Row_Shortcode {
 		cherry_shortcodes_admin()->grid_shortcodes_settings[] = array(
 			'title'       => esc_html__( 'Inner Row', 'cherry-site-shortcodes' ),
 			'description' => esc_html__( 'Shortcode is used for inserting inner row wrapper', 'cherry-site-shortcodes' ),
-			'icon'        => '<span class="dashicons dashicons-screenoptions"></span>',
+			'icon'        => '<span class="dashicons dashicons-editor-table"></span>',
 			'slug'        => 'cherry_inner_row',
 			'enclosing'   => true,
 			'options'     => array(

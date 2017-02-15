@@ -34,6 +34,96 @@ class Cherry_Icon_Shortcode extends Cherry_Main_Shortcode {
 		$this->name = 'icon';
 
 		parent::__construct();
+
+		if ( is_admin() ) {
+			add_action( 'after_setup_theme', array( $this, 'shortcode_registration' ), 9 );
+		}
+	}
+
+	/**
+	 * Define fields settings.
+	 *
+	 * @return viod
+	 */
+	public function shortcode_registration() {
+		cherry_shortcodes_admin()->base_shortcodes_settings[] = array(
+			'title'       => esc_html__( 'Icon', 'cherry-site-shortcodes' ),
+			'description' => esc_html__( 'Shortcode is used to display the icon', 'cherry-site-shortcodes' ),
+			'icon'        => '<span class="dashicons dashicons-wordpress"></span>',
+			'slug'        => 'cherry_icon',
+			'enclosing'   => false,
+			'options'     => array(
+				'icon' => array(
+					'type'        => 'iconpicker',
+					'parent'      => 'ui_elements',
+					'title'       => esc_html__( 'Icon Picker', 'cherry-site-shortcodes' ),
+					'description' => esc_html__( 'Description icon picker.', 'cherry-site-shortcodes' ),
+					'value'       => 'fa-wordpress',
+					'icon_data'   => array(
+						'icon_set'    => 'cherryWidgetFontAwesome',
+						'icon_css'    => esc_url( CHERRY_SITE_SHORTCODES_URI . 'assets/css/font-awesome.min.css' ),
+						'icon_base'   => 'fa',
+						'icon_prefix' => 'fa-',
+						'icons'       => $this->get_icons_set(),
+					),
+				),
+				'image' => array(
+					'type'               => 'media',
+					'title'              => esc_html__( 'Icon image', 'cherry-site-shortcodes' ),
+					'description'        => esc_html__( 'Select icon image using media library', 'cherry-site-shortcodes' ),
+					'value'              => '',
+					'multi_upload'       => false,
+					'library_type'       => 'image',
+					'upload_button_text' => esc_html__( 'Choose image', 'cherry-site-shortcodes' ),
+				),
+				'size' => array(
+					'type'        => 'slider',
+					'title'       => esc_html__( 'Icon size', 'cherry-site-shortcodes' ),
+					'description' => esc_html__( 'Select icon size value for icon(px)', 'cherry-site-shortcodes' ),
+					'max_value'   => 100,
+					'min_value'   => 1,
+					'value'       => 12,
+				),
+				'href' => array(
+					'type'        => 'text',
+					'title'       => esc_html__( 'Icon link href', 'cherry-site-shortcodes' ),
+					'description' => esc_html__( 'Assign link href', 'cherry-site-shortcodes' ),
+					'value'       => '',
+					'placeholder' => esc_html__( 'Input href', 'cherry-site-shortcodes' ),
+					'class'       => '',
+				),
+				'color' => array(
+					'type'        => 'colorpicker',
+					'title'       => esc_html__( 'Icon color', 'cherry-site-shortcodes' ),
+					'description' => esc_html__( 'Define color for icon', 'cherry-site-shortcodes' ),
+					'value'       => '#000',
+				),
+				'opacity' => array(
+					'type'        => 'slider',
+					'title'       => esc_html__( 'Icon opacity', 'cherry-site-shortcodes' ),
+					'description' => esc_html__( 'Select value for icon opacity(%)', 'cherry-site-shortcodes' ),
+					'max_value'   => 100,
+					'min_value'   => 0,
+					'value'       => 100,
+				),
+				'padding' => array(
+					'type'        => 'slider',
+					'title'       => esc_html__( 'Icon padding', 'cherry-site-shortcodes' ),
+					'description' => esc_html__( 'Select value for icon padding(px)', 'cherry-site-shortcodes' ),
+					'max_value'   => 500,
+					'min_value'   => 0,
+					'value'       => 25,
+				),
+				'class' => array(
+					'type'        => 'text',
+					'title'       => esc_html__( 'Custom class', 'cherry-site-shortcodes' ),
+					'description' => esc_html__( 'Assign cusstom class for icon', 'cherry-site-shortcodes' ),
+					'value'       => '',
+					'placeholder' => esc_html__( 'Input class', 'cherry-site-shortcodes' ),
+					'class'       => '',
+				),
+			),
+		);
 	}
 
 	/**
@@ -50,7 +140,7 @@ class Cherry_Icon_Shortcode extends Cherry_Main_Shortcode {
 		// Set up the default arguments.
 		$defaults = array(
 			'id'      => uniqid(),
-			'icon'    => 'fa fa-wordpress',
+			'icon'    => 'fa-wordpress',
 			'image'   => '',
 			'size'    => '',
 			'color'   => '',
@@ -68,7 +158,7 @@ class Cherry_Icon_Shortcode extends Cherry_Main_Shortcode {
 		$icon = sprintf(
 			'<span class="%1$s__symbol %2$s"></span>',
 			esc_attr( $class ),
-			$atts['icon']
+			'fa ' . $atts['icon']
 		);
 
 		if ( ! empty( $atts['image'] ) ) {
@@ -116,7 +206,7 @@ class Cherry_Icon_Shortcode extends Cherry_Main_Shortcode {
 		$icon_styles = array();
 
 		if ( ! empty( $atts['padding'] ) ) {
-			$divider_styles['padding'] = $atts['padding'];
+			$styles['padding'] = $atts['padding'] . 'px';
 		}
 
 		if ( ! empty( $atts['color'] ) ) {
@@ -140,7 +230,7 @@ class Cherry_Icon_Shortcode extends Cherry_Main_Shortcode {
 		}
 
 		if ( ! empty( $atts['size'] ) ) {
-			$icon_styles['font-size'] = $atts['size'];
+			$icon_styles['font-size'] = $atts['size'] . 'px';
 		}
 
 		if ( ! empty( $icon_styles ) && is_array( $icon_styles ) ) {
@@ -149,6 +239,27 @@ class Cherry_Icon_Shortcode extends Cherry_Main_Shortcode {
 				$icon_styles
 			);
 		}
+	}
+
+	/**
+	 * Get icons set
+	 *
+	 * @return array
+	 */
+	private function get_icons_set() {
+		ob_start();
+
+		include CHERRY_SITE_SHORTCODES_DIR . 'assets/fonts/icons.json';
+
+		$json = ob_get_clean();
+		$result = array();
+		$icons = json_decode( $json, true );
+
+		foreach ( $icons['icons'] as $icon ) {
+			$result[] = $icon['id'];
+		}
+
+		return $result;
 	}
 
 	/**

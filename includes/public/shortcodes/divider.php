@@ -49,7 +49,7 @@ class Cherry_Divider_Shortcode extends Cherry_Main_Shortcode {
 		cherry_shortcodes_admin()->base_shortcodes_settings[] = array(
 			'title'       => esc_html__( 'Divider', 'cherry-site-shortcodes' ),
 			'description' => esc_html__( 'Shortcode is used to display the divider', 'cherry-site-shortcodes' ),
-			'icon'        => '<span class="dashicons dashicons-align-center"></span>',
+			'icon'        => '<span class="dashicons dashicons-minus"></span>',
 			'slug'        => 'cherry_divider',
 			'enclosing'   => false,
 			'options'     => array(
