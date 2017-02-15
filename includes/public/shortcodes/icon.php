@@ -88,7 +88,7 @@ class Cherry_Icon_Shortcode extends Cherry_Main_Shortcode {
 					'type'        => 'text',
 					'title'       => esc_html__( 'Icon link href', 'cherry-site-shortcodes' ),
 					'description' => esc_html__( 'Assign link href', 'cherry-site-shortcodes' ),
-					'value'       => '',
+					'value'       => '#',
 					'placeholder' => esc_html__( 'Input href', 'cherry-site-shortcodes' ),
 					'class'       => '',
 				),
