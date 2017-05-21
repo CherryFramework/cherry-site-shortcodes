@@ -70,7 +70,7 @@ class Cherry_Section_Shortcode extends Cherry_Main_Shortcode {
 
 		// Set up the default arguments.
 		$defaults = array(
-			'id'                 => uniqid(),
+			'id'                 => '',
 			'background_type'    => 'fill-color',
 			'background_color'   => '',
 			'background_opacity' => '100',
@@ -85,10 +85,11 @@ class Cherry_Section_Shortcode extends Cherry_Main_Shortcode {
 		$css_prefix = $this->get_css_prefix();
 		$classes    = array( 'section', 'section--' . $atts['background_size'] );
 
+		$section_id = empty( $atts['id'] ) ? esc_attr( $css_prefix ) . 'ssection-' . uniqid() : $atts['id'];
+
 		$result = sprintf(
-			'<section id="%2$ssection-%1$s" class="%3$s">%4$s</section>',
-			esc_attr( $atts['id'] ),
-			esc_attr( $css_prefix ),
+			'<section id="%1$s" class="%2$s">%3$s</section>',
+			$section_id,
 			Cherry_Site_Tools::esc_class( $classes, $atts ),
 			do_shortcode( $content )
 		);
