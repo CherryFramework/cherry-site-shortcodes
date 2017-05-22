@@ -186,6 +186,14 @@ class Cherry_Section_Shortcode extends Cherry_Main_Shortcode {
 					'placeholder' => esc_html__( 'Input class', 'cherry-site-shortcodes' ),
 					'class'       => '',
 				),
+				'id' => array(
+					'type'        => 'text',
+					'title'       => esc_html__( 'Custom id', 'cherry-site-shortcodes' ),
+					'description' => esc_html__( 'Assign cusstom id for for section', 'cherry-site-shortcodes' ),
+					'value'       => '',
+					'placeholder' => esc_html__( 'Input id value', 'cherry-site-shortcodes' ),
+					'class'       => '',
+				),
 			);
 	}
 	/**
