@@ -80,4 +80,30 @@ class Cherry_Site_Tools {
 	public static function _add_css_prefix( &$class, $index ) {
 		$class = Cherry_Main_Shortcode::get_css_prefix() . $class;
 	}
+
+	/**
+	 * Try to get SVG icon
+	 *
+	 * @return string|bool false
+	 */
+	public static function get_svg_by_attachment_id( $attachment_id ) {
+		$transient = md5( $attachment_id );
+		$svg = get_transient( $transient );
+
+		if ( $svg ) {
+			return $svg;
+		}
+
+		$icon_url    = wp_get_attachment_url( $attachment_id );
+		$svg_request = wp_remote_get( $icon_url );
+		$svg         = wp_remote_retrieve_body( $svg_request );
+
+		if ( ! empty( $svg ) ) {
+			set_transient( $transient, $svg, 3 * DAY_IN_SECONDS );
+
+			return $svg;
+		} else {
+			return false;
+		}
+	}
 }

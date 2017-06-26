@@ -104,6 +104,9 @@ if ( ! class_exists( 'Cherry_Site_Shortcodes' ) ) {
 
 			// Apply custom formatter function.
 			add_filter( 'the_content', array( $this, 'clean_shortcodes' ) );
+
+			// Add svg mime type
+			add_filter( 'upload_mimes', array( $this, 'add_mime_types' ) );
 		}
 
 		/**
@@ -165,6 +168,7 @@ if ( ! class_exists( 'Cherry_Site_Shortcodes' ) ) {
 			require_once( CHERRY_SITE_SHORTCODES_DIR . 'includes/public/shortcodes/3rd-section.php' );
 			require_once( CHERRY_SITE_SHORTCODES_DIR . 'includes/public/shortcodes/divider.php' );
 			require_once( CHERRY_SITE_SHORTCODES_DIR . 'includes/public/shortcodes/icon.php' );
+			require_once( CHERRY_SITE_SHORTCODES_DIR . 'includes/public/shortcodes/svg-image.php' );
 		}
 
 		/**
@@ -357,6 +361,17 @@ if ( ! class_exists( 'Cherry_Site_Shortcodes' ) ) {
 			$content = strtr( $content, $array );
 
 			return $content;
+		}
+
+		/**
+		 * Add SVG into allowed mime types
+		 *
+		 * @param array $mimes Default mime types.
+		 */
+		public function add_mime_types( $mimes ) {
+			$mimes['svg'] = 'image/svg+xml';
+
+			return $mimes;
 		}
 
 		/**
