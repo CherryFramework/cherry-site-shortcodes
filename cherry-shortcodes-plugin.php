@@ -245,7 +245,9 @@ if ( ! class_exists( 'Cherry_Site_Shortcodes' ) ) {
 		public function init_modules() {
 			$this->dynamic_css = $this->get_core()->init_module( 'cherry-dynamic-css' );
 
-			$this->get_core()->init_module( 'cherry5-insert-shortcode', array() );
+			if ( is_admin() ) {
+				$this->get_core()->init_module( 'cherry5-insert-shortcode', array() );
+			}
 		}
 
 		/**
@@ -301,7 +303,7 @@ if ( ! class_exists( 'Cherry_Site_Shortcodes' ) ) {
 				'cherry-site-shortcodes-avaliable-styles',
 				array(
 					'awesome' => 'font-awesome',
-					'main'    => 'cherry-site-shortcodes-styles',
+					// 'main'    => 'cherry-site-shortcodes-styles',
 					'grid'    => 'cherry-site-shortcodes-grid-styles',
 					'element' => 'cherry-site-shortcodes-element-styles',
 				)
