@@ -211,7 +211,7 @@ class Cherry_Section_Shortcode extends Cherry_Main_Shortcode {
 				if ( ! empty( $atts['background_color'] ) ) {
 					$rgb     = Cherry_Site_Tools::hex_to_rgb( $atts['background_color'] );
 					$opacity = intval( $atts['background_opacity'] ) / 100;
-					$styles['background-color'] = sprintf( 'rgba(%1$s, %2$s, %3$s, %4$s);', $rgb[0], $rgb[1], $rgb[2], $opacity );
+					$styles['background-color'] = sprintf( 'rgba(%1$s, %2$s, %3$s, %4$s)', $rgb[0], $rgb[1], $rgb[2], $opacity );
 				}
 				break;
 
@@ -219,7 +219,7 @@ class Cherry_Section_Shortcode extends Cherry_Main_Shortcode {
 
 				if ( ! empty( $atts['background_image'] ) ) {
 					$image = wp_get_attachment_image_src( $atts['background_image'], 'full' );
-					$styles['background-image'] = sprintf( 'url(%1$s);', esc_url( $image[0] ) );
+					$styles['background-image'] = sprintf( 'url(%1$s)', esc_url( $image[0] ) );
 				}
 				break;
 
