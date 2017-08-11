@@ -90,13 +90,13 @@ if ( ! class_exists( 'Cherry_Site_Shortcodes' ) ) {
 			add_action( 'plugins_loaded', array( $this, 'admin' ), 2 );
 
 			// Register public assets.
-			add_action( 'wp_enqueue_scripts', array( $this, 'register_assets' ), 10 );
+			add_action( 'wp_enqueue_scripts', array( $this, 'register_assets' ), 1 );
 
 			// Load public-facing StyleSheets.
-			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ), 11 );
+			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ), 9 );
 
 			// Load public-facing JavaScripts.
-			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 11 );
+			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 9 );
 
 			// Register activation and deactivation hook.
 			register_activation_hook( __FILE__, array( $this, 'activation' ) );
